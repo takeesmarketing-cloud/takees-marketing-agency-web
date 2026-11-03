@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initBlogFilter();
   initPricing();
+  initTeamMarquee();
 
   // Premium Marketing Agency Motion Suite
   initHeroHeadlineReveal();
@@ -59,6 +60,47 @@ function initPricing() {
   };
 
   switches.forEach(btn => btn.addEventListener('click', () => setType(btn.dataset.planType)));
+}
+
+/**
+ * Team marquee: the team grid becomes two rows of cards sliding in opposite
+ * directions. Each row holds its cards twice so the slide can loop without a
+ * jump. Without JS, or with reduced motion, the plain grid stays.
+ */
+function initTeamMarquee() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.querySelectorAll('.team-section .container').forEach(container => {
+    const grids = container.querySelectorAll('.team-grid');
+    const cards = Array.from(container.querySelectorAll('.team-grid > .team-card'));
+    if (cards.length < 4) return;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'team-marquee-wrap';
+    const half = Math.ceil(cards.length / 2);
+
+    [cards.slice(0, half), cards.slice(half)].forEach((rowCards, i) => {
+      const row = document.createElement('div');
+      row.className = 'team-marquee' + (i === 1 ? ' is-reverse' : '');
+      const track = document.createElement('div');
+      track.className = 'team-marquee-track';
+      track.style.setProperty('--team-duration', `${rowCards.length * 4}s`);
+
+      rowCards.forEach(card => track.appendChild(card));
+      rowCards.forEach(card => {
+        const copy = card.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        copy.querySelectorAll('img').forEach(img => { img.alt = ''; });
+        track.appendChild(copy);
+      });
+
+      row.appendChild(track);
+      wrap.appendChild(row);
+    });
+
+    grids[0].before(wrap);
+    grids.forEach(grid => grid.remove());
+  });
 }
 
 /**

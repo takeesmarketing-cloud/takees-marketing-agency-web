@@ -25,6 +25,9 @@ const server = http.createServer((req, res) => {
     res.writeHead(301, { Location: to });
     res.end();
   };
+  // The Method page was removed; old links go to About Us
+  if (/^\/((bangalore|kochi)\/)?method\.html$/.test(reqUrl)) return redirect('/about.html');
+
   const location = reqUrl.match(/^\/(bangalore|kochi)(\/.*)?$/);
   if (location) {
     const [, city, rest] = location;

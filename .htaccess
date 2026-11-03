@@ -63,7 +63,10 @@ AddType font/woff     .woff
   # Old folder addresses: /bangalore/ and /bangalore/index.html → /bangalore
   RewriteRule ^(bangalore|kochi)/(index\.html)?$ /$1 [R=301,L]
 
-  # Old folder pages (about, services, method, …) → the shared root page
+  # The Method page was removed → About Us (its "How We Work" section)
+  RewriteRule ^(?:(?:bangalore|kochi)/)?method\.html$ /about.html [R=301,L]
+
+  # Old folder pages (about, services, …) → the shared root page
   RewriteRule ^(?:bangalore|kochi)/([a-z-]+\.html)$ /$1 [R=301,L]
 
   # Serve the clean address from the root file
