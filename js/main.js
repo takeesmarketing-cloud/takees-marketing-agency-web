@@ -231,7 +231,7 @@ function initNavigation() {
 }
 
 function highlightActiveNav() {
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const currentPath = window.location.pathname.split('/').pop() || '/';
   const navLinks = document.querySelectorAll('.nav-link');
 
   // Pages without their own menu item (e.g. blog-details.html) keep the

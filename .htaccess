@@ -56,6 +56,10 @@ AddType font/woff     .woff
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Visiting /index.html directly → the home address takees.in/
+  RewriteCond %{THE_REQUEST} \s/+index\.html[\s?]
+  RewriteRule ^ / [R=301,L]
+
   # Visiting /bangalore.html or /kochi.html directly → the clean address
   RewriteCond %{THE_REQUEST} \s/+(bangalore|kochi)\.html[\s?]
   RewriteRule ^ /%1 [R=301,L]
