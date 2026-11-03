@@ -48,10 +48,10 @@ AddType font/woff     .woff
 </IfModule>
 
 # ----------------------------------------------------------
-#  Location Pages (single folder)
-#  bangalore.html and kochi.html live in the root and are served
-#  at takees.in/bangalore and takees.in/kochi (no trailing slash,
-#  so their relative css/js/asset paths resolve to the root)
+#  Clean Addresses
+#  Every page is served without .html: takees.in/, /about,
+#  /services, /bangalore … (no trailing slash, so each page's
+#  relative css/js/asset paths resolve to the root)
 # ----------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -60,21 +60,33 @@ AddType font/woff     .woff
   RewriteCond %{THE_REQUEST} \s/+index\.html[\s?]
   RewriteRule ^ / [R=301,L]
 
-  # Visiting /bangalore.html or /kochi.html directly → the clean address
-  RewriteCond %{THE_REQUEST} \s/+(bangalore|kochi)\.html[\s?]
-  RewriteRule ^ /%1 [R=301,L]
-
   # Old folder addresses: /bangalore/ and /bangalore/index.html → /bangalore
   RewriteRule ^(bangalore|kochi)/(index\.html)?$ /$1 [R=301,L]
 
   # The Method page was removed → About Us (its "How We Work" section)
-  RewriteRule ^(?:(?:bangalore|kochi)/)?method\.html$ /about.html [R=301,L]
+  RewriteRule ^(?:(?:bangalore|kochi)/)?method\.html$ /about [R=301,L]
 
-  # Old folder pages (about, services, …) → the shared root page
-  RewriteRule ^(?:bangalore|kochi)/([a-z-]+\.html)$ /$1 [R=301,L]
+  # Old folder pages (/bangalore/about.html …) → the shared page
+  RewriteRule ^(?:bangalore|kochi)/([a-z-]+)\.html$ /$1 [R=301,L]
 
-  # Serve the clean address from the root file
-  RewriteRule ^(bangalore|kochi)$ /$1.html [L]
+  # Addresses from the previous takees.in site → the matching page
+  RewriteRule ^about-takees-marketing/?$ /about [R=301,L]
+  RewriteRule ^digital-marketing-services/?$ /services [R=301,L]
+  RewriteRule ^digital-marketing-company-achievements/?$ /achievements [R=301,L]
+  RewriteRule ^contact-takees-marketing-company/?$ /contact [R=301,L]
+  RewriteRule ^best-digital-marketing-agency-in-bangalore/?$ /blog-details [R=301,L]
+
+  # Visiting /about.html directly → /about
+  RewriteCond %{THE_REQUEST} \s/+([a-z-]+)\.html[\s?]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # A trailing slash on a page address → without it (/blogs/ → /blogs)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([a-z-]+)/$ /$1 [R=301,L]
+
+  # Serve the clean address from its .html file
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^([a-z-]+)$ /$1.html [L]
 </IfModule>
 
 # ----------------------------------------------------------

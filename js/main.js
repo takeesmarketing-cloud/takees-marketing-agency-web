@@ -231,10 +231,11 @@ function initNavigation() {
 }
 
 function highlightActiveNav() {
-  const currentPath = window.location.pathname.split('/').pop() || '/';
+  // Links use clean addresses (/, /about, /services …)
+  const currentPath = '/' + window.location.pathname.split('/').pop().replace(/\.html$/, '').replace(/^index$/, '');
   const navLinks = document.querySelectorAll('.nav-link');
 
-  // Pages without their own menu item (e.g. blog-details.html) keep the
+  // Pages without their own menu item (e.g. /blog-details) keep the
   // active link set in their markup.
   const hasMatch = [...navLinks].some(link => link.getAttribute('href') === currentPath);
   if (!hasMatch) return;
