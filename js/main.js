@@ -18,8 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Premium Marketing Agency Motion Suite
   initHeroHeadlineReveal();
   initHeroBackgroundAccents();
-  initHeroImageMotion();
-  initHeroBannerParallax();
   initNumberCounters();
   initScrollReveals();
   initParallaxEffects();
@@ -119,42 +117,36 @@ function initTeamMarquee() {
  */
 function initClients() {
   const grid = document.getElementById('clientsGrid');
-  const toggle = document.getElementById('clientsToggle');
-  const results = document.getElementById('clientsResults');
-  const panel = document.getElementById('clientsGridPanel');
-  const section = document.getElementById('clients');
-  if (!grid || !toggle || !results || !panel || !section) return;
+  if (!grid) return;
+  // Without motion the plain grid of all clients stays
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+  // One row of client logos sliding endlessly. The row holds its logos
+  // twice so the slide can loop without a jump.
   const cards = Array.from(grid.querySelectorAll('.client-logo'));
-  let isExpanded = false;
+  if (cards.length < 4) return;
+  // Logos slide in from the side, so load them now rather than when scrolled to
+  grid.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+  const wrap = document.createElement('div');
+  wrap.className = 'clients-marquee-wrap';
+  const row = document.createElement('div');
+  row.className = 'clients-marquee';
+  const track = document.createElement('ul');
+  track.className = 'clients-marquee-track';
+  track.setAttribute('aria-label', grid.getAttribute('aria-label'));
+  track.style.setProperty('--clients-duration', `${cards.length * 3}s`);
 
+  cards.forEach(card => track.appendChild(card));
   cards.forEach(card => {
-    const logo = card.querySelector('img');
-    if (logo) {
-      card.tabIndex = 0;
-      card.setAttribute('aria-label', logo.alt);
-    }
+    const copy = card.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    copy.querySelectorAll('img').forEach(img => { img.alt = ''; });
+    track.appendChild(copy);
   });
 
-  const updateDisclosure = expanded => {
-    isExpanded = expanded;
-    toggle.setAttribute('aria-expanded', String(expanded));
-    toggle.textContent = expanded ? 'Hide Clients' : 'Show Clients';
-    toggle.classList.toggle('is-active', expanded);
-    results.textContent = expanded
-      ? `Showing all ${cards.length} clients`
-      : 'Click Show Clients to view our clients';
-    panel.setAttribute('aria-hidden', String(!expanded));
-    panel.classList.toggle('is-expanded', expanded);
-    panel.inert = !expanded;
-    section.classList.toggle('is-collapsed', !expanded);
-  };
-
-  updateDisclosure(isExpanded);
-
-  toggle.addEventListener('click', () => {
-    updateDisclosure(!isExpanded);
-  });
+  row.appendChild(track);
+  wrap.appendChild(row);
+  grid.replaceWith(wrap);
 }
 
 /**
@@ -209,7 +201,8 @@ function initNavigation() {
       const isOpen = navMenu.classList.toggle('is-open');
       menuToggle.classList.toggle('is-active', isOpen);
       menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+      // Lock scrolling on html, not body: overflow on body breaks the sticky header
+      document.documentElement.style.overflowY = isOpen ? 'hidden' : '';
     });
 
     // Close mobile menu when clicking any link
@@ -219,7 +212,7 @@ function initNavigation() {
           navMenu.classList.remove('is-open');
           menuToggle.classList.remove('is-active');
           menuToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
+          document.documentElement.style.overflowY = '';
         }
       });
     });
@@ -232,7 +225,7 @@ function initNavigation() {
         navMenu.classList.remove('is-open');
         menuToggle.classList.remove('is-active');
         menuToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        document.documentElement.style.overflowY = '';
       }
     });
   }
@@ -329,30 +322,46 @@ function initFormValidation() {
         return;
       }
 
-      // Success simulation with user feedback
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const originalText = submitBtn ? submitBtn.textContent : 'Submit';
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
-      }
+      // The site has no server-side mail, so the enquiry is sent through
+      // WhatsApp to the same number as the page's WhatsApp button
+      const whatsappUrl = buildEnquiryWhatsAppUrl(form);
+      const opened = window.open(whatsappUrl, '_blank');
+      if (opened) opened.opener = null;
 
-      setTimeout(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalText;
-        }
-        feedbackEl.className = 'form-feedback success';
-        feedbackEl.textContent = 'Thank you! Your message has been received. Our team will contact you shortly.';
-        feedbackEl.style.display = 'block';
-        form.reset();
-
-        setTimeout(() => {
-          feedbackEl.style.display = 'none';
-        }, 6000);
-      }, 700);
+      feedbackEl.className = 'form-feedback success';
+      feedbackEl.replaceChildren(document.createTextNode(opened
+        ? 'WhatsApp has opened with your details. Tap Send there so our team receives your enquiry. '
+        : 'Your details are ready to send on WhatsApp. '));
+      const sendLink = document.createElement('a');
+      sendLink.href = whatsappUrl;
+      sendLink.target = '_blank';
+      sendLink.rel = 'noopener';
+      sendLink.textContent = opened ? 'Open WhatsApp again' : 'Open WhatsApp to send';
+      feedbackEl.append(sendLink);
+      feedbackEl.style.display = 'block';
     });
   });
+}
+
+/**
+ * Builds a wa.me link whose message lists every filled-in form field.
+ */
+function buildEnquiryWhatsAppUrl(form) {
+  const pageButton = document.querySelector('.floating-whatsapp[href*="wa.me/"]');
+  const number = pageButton ? pageButton.getAttribute('href').match(/wa\.me\/(\d+)/)[1] : '918137890091';
+
+  const fieldNames = { name: 'Name', phone: 'Phone', email: 'Email', service: 'Service', goal: 'Goal', message: 'Message' };
+  const lines = ['Hi Takees Marketing, I would like to get in touch.', ''];
+  form.querySelectorAll('input[name], select[name], textarea[name]').forEach(field => {
+    const value = field.value.trim();
+    if (!value || field.type === 'hidden') return;
+    const label = form.querySelector(`label[for="${field.id}"]`);
+    const name = fieldNames[field.name] || (label ? label.textContent.replace(/[*:]/g, '').trim() : field.name);
+    lines.push(`${name}: ${value}`);
+  });
+  lines.push('', `Sent from ${window.location.href.split(/[?#]/)[0]}`);
+
+  return `https://wa.me/${number}?text=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 function createFeedbackEl(form) {
@@ -616,425 +625,4 @@ function initParallaxEffects() {
       ticking = true;
     }
   }, { passive: true });
-}
-
-function initHeroImageMotion() {
-  // All animations disabled on home-hero as requested
-  const hero = document.querySelector('.home-hero');
-  if (hero) {
-    hero.classList.remove('is-hero-reveal-pending');
-    hero.classList.add('is-hero-revealed');
-  }
-}
-
-function initHeroBannerParallax() {
-  // Parallax disabled on home-hero as requested
-}
-
-function wrapHomeHeroHeadingByLine(heading) {
-  const text = heading.textContent;
-  const words = Array.from(text.matchAll(/\S+/g));
-  if (!words.length) return 1;
-
-  const measurement = document.createDocumentFragment();
-  const wordElements = words.map((word, index) => {
-    const previousEnd = index === 0 ? 0 : words[index - 1].index + words[index - 1][0].length;
-    measurement.appendChild(document.createTextNode(text.slice(previousEnd, word.index)));
-
-    const wordElement = document.createElement('span');
-    wordElement.style.cssText = 'display: inline-block; white-space: nowrap;';
-    wordElement.textContent = word[0];
-    measurement.appendChild(wordElement);
-    return wordElement;
-  });
-
-  const lastWord = words[words.length - 1];
-  measurement.appendChild(document.createTextNode(text.slice(lastWord.index + lastWord[0].length)));
-  heading.replaceChildren(measurement);
-
-  const lineHeight = parseFloat(getComputedStyle(heading).lineHeight) || 1;
-  const lineGroups = [];
-  wordElements.forEach((wordElement, index) => {
-    const top = wordElement.getBoundingClientRect().top;
-    const currentLine = lineGroups[lineGroups.length - 1];
-
-    if (!currentLine || top - currentLine.top >= lineHeight * 0.5) {
-      lineGroups.push({ start: words[index].index, top });
-    }
-  });
-
-  const lines = lineGroups.map((line, index) => {
-    const end = index + 1 < lineGroups.length ? lineGroups[index + 1].start : text.length;
-    const lineWrap = document.createElement('span');
-    const lineInner = document.createElement('span');
-    lineWrap.className = 'hero-heading-line';
-    lineInner.className = 'hero-heading-line-inner';
-    lineInner.style.setProperty('--hero-line-delay', `${800 + index * 120}ms`);
-    lineInner.textContent = text.slice(line.start, end);
-    lineWrap.appendChild(lineInner);
-    return lineWrap;
-  });
-
-  heading.replaceChildren(...lines);
-  return lines.length;
-}
-
-/**
- * 6. Hero Supporting Brand Visual Motion
- * Subtle smooth entrance & gentle parallax hover on supporting brand card
- */
-/**
- * 6. Ultra-Realistic Animated Purple Aurora & Liquid Wave Background
- * WebGL / High-Precision Fluid Mesh Renderer inspired by reference design.
- */
-function initPurpleAuroraWave() {
-  const card = document.getElementById('heroAuroraCard');
-  const canvas = document.getElementById('auroraCanvas');
-  if (!card || !canvas) return;
-
-  // Try WebGL for GPU-accelerated realistic fluid simulation
-  let gl = null;
-  try {
-    gl = canvas.getContext('webgl', { alpha: true, antialias: true }) ||
-         canvas.getContext('experimental-webgl');
-  } catch (e) {
-    gl = null;
-  }
-
-  if (gl) {
-    initWebGLAurora(card, canvas, gl);
-  } else {
-    initCanvas2DAurora(card, canvas);
-  }
-}
-
-function initWebGLAurora(card, canvas, gl) {
-  let width = 0;
-  let height = 0;
-  let dpr = 1;
-  let isVisible = true;
-  let animId = null;
-
-  const vsSource = `
-    attribute vec2 a_position;
-    void main() {
-      gl_Position = vec4(a_position, 0.0, 1.0);
-    }
-  `;
-
-  // GLSL Shader reproducing the new electric blue liquid silk wave ribbon artwork!
-  const fsSource = `
-    precision highp float;
-    uniform vec2 u_resolution;
-    uniform float u_time;
-
-    vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
-    float snoise(vec2 v){
-      const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-                         -0.577350269189626, 0.024390243902439);
-      vec2 i  = floor(v + dot(v, C.yy) );
-      vec2 x0 = v -   i + dot(i, C.xx);
-      vec2 i1;
-      i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-      vec4 x12 = x0.xyxy + C.xxzz;
-      x12.xy -= i1;
-      i = mod(i, 289.0);
-      vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
-      + i.x + vec3(0.0, i1.x, 1.0 ));
-      vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-      m = m*m;
-      m = m*m;
-      vec3 x = 2.0 * fract(p * C.www) - 1.0;
-      vec3 h = abs(x) - 0.5;
-      vec3 ox = floor(x + 0.5);
-      vec3 a0 = x - ox;
-      m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
-      vec3 g;
-      g.x  = a0.x  * x0.x  + h.x  * x0.y;
-      g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-      return 130.0 * dot(m, g);
-    }
-
-    void main() {
-      vec2 st = gl_FragCoord.xy / u_resolution.xy;
-      st.y = 1.0 - st.y; // Top to bottom
-
-      float t = u_time * 0.32;
-
-      // 1. Midnight Dark Base (#020108 -> #05030e)
-      vec3 bg = mix(vec3(0.008, 0.004, 0.015), vec3(0.02, 0.01, 0.04), st.y);
-
-      // 2. MAIN DIAGONAL SWEEPING LIQUID SILK RIBBON (PRESERVED EXACT SHAPE & SPEED)
-      float ribbonNoise1 = snoise(vec2(st.x * 2.0 + t * 0.4, st.y * 1.8 - t * 0.3)) * 0.08;
-      float ribbonNoise2 = snoise(vec2(st.x * 4.2 - t * 0.6, st.y * 3.5 + t * 0.5)) * 0.03;
-      
-      // Primary S-curve path flowing diagonally from bottom-left to top-right
-      float targetX = 0.15 + (1.0 - st.y) * 0.55 + sin((1.0 - st.y) * 3.14159 * 1.2 + t * 0.8) * 0.14 + ribbonNoise1 + ribbonNoise2;
-      float distToRibbon = abs(st.x - targetX);
-      float ribbonIntensity = exp(-distToRibbon * distToRibbon * 45.0);
-
-      // Secondary Splitting Silk Crest (Branching top-right ribbon curve)
-      float targetX2 = 0.25 + (1.0 - st.y) * 0.70 + cos((1.0 - st.y) * 2.5 + t * 0.6) * 0.12 + ribbonNoise1;
-      float distToRibbon2 = abs(st.x - targetX2);
-      float ribbonIntensity2 = exp(-distToRibbon2 * distToRibbon2 * 65.0) * smoothstep(0.7, 0.1, st.y);
-
-      // 3. TAKEEES PRIMARY PURPLE #502895 COLOR PALETTE & LIGHTER VARIATIONS
-      // Primary Purple #502895 (rgb: 0.314, 0.157, 0.584)
-      float verticalProg = 1.0 - st.y;
-      vec3 mainPurple = vec3(0.314, 0.157, 0.584); // Takees Primary Purple #502895
-      vec3 brightPurple = vec3(0.580, 0.350, 0.880); // Lighter variation derived from #502895
-      
-      vec3 ribbonColor = mix(mainPurple, brightPurple, verticalProg);
-      
-      vec3 color = mix(bg, ribbonColor, ribbonIntensity * 0.88);
-      color += vec3(0.667, 0.494, 0.910) * ribbonIntensity2 * 0.72;
-
-      // 4. SOFT PURPLE SILK SHEEN EDGE HIGHLIGHTS (#d6bdff)
-      float sheenEdge = exp(-pow(distToRibbon - 0.02, 2.0) * 380.0) * 0.85;
-      vec3 sheenColor = vec3(0.839, 0.741, 1.000);
-      color += sheenColor * sheenEdge;
-
-      // 5. INTENSE PURPLE-WHITE BASE LIGHT BLOOM AT BOTTOM-LEFT
-      vec2 baseHotspot = vec2(0.12 + sin(t * 0.4) * 0.04, 0.92 + cos(t * 0.5) * 0.03);
-      float dBase = length((st - baseHotspot) * vec2(1.0, 1.3));
-      float baseGlow = exp(-dBase * dBase * 12.0);
-      
-      vec3 coreLight = mix(vec3(0.780, 0.620, 0.980), vec3(0.961, 0.933, 1.000), smoothstep(0.4, 0.0, dBase));
-      color = mix(color, coreLight, baseGlow * 0.95);
-
-      // Soft ambient purple volume fill
-      float amb = exp(-abs(st.x - targetX) * 3.5);
-      color += mainPurple * amb * 0.45;
-
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `;
-
-  function createShader(gl, type, source) {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      console.error(gl.getShaderInfoLog(shader));
-      gl.deleteShader(shader);
-      return null;
-    }
-    return shader;
-  }
-
-  const vertShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
-  const fragShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-  if (!vertShader || !fragShader) {
-    initCanvas2DAurora(card, canvas);
-    return;
-  }
-
-  const program = gl.createProgram();
-  gl.attachShader(program, vertShader);
-  gl.attachShader(program, fragShader);
-  gl.linkProgram(program);
-
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    console.error(gl.getProgramInfoLog(program));
-    initCanvas2DAurora(card, canvas);
-    return;
-  }
-
-  gl.useProgram(program);
-
-  const positionBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-    -1, -1,
-     1, -1,
-    -1,  1,
-    -1,  1,
-     1, -1,
-     1,  1,
-  ]), gl.STATIC_DRAW);
-
-  const posLocation = gl.getAttribLocation(program, 'a_position');
-  const resLocation = gl.getUniformLocation(program, 'u_resolution');
-  const timeLocation = gl.getUniformLocation(program, 'u_time');
-
-  gl.enableVertexAttribArray(posLocation);
-  gl.vertexAttribPointer(posLocation, 2, gl.FLOAT, false, 0, 0);
-
-  function resize() {
-    const rect = card.getBoundingClientRect();
-    width = rect.width;
-    height = rect.height;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    canvas.width = Math.floor(width * dpr);
-    canvas.height = Math.floor(height * dpr);
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-
-  resize();
-  window.addEventListener('resize', resize, { passive: true });
-
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        isVisible = entry.isIntersecting;
-        if (isVisible && !animId) {
-          lastTime = performance.now();
-          loop(lastTime);
-        }
-      });
-    }, { threshold: 0.05 });
-    observer.observe(card);
-  }
-
-  let t = 0;
-  let lastTime = performance.now();
-
-  function loop(now) {
-    if (!isVisible) {
-      animId = null;
-      return;
-    }
-
-    const dt = Math.min((now - lastTime) / 1000, 0.1);
-    lastTime = now;
-    t += dt;
-
-    gl.uniform2f(resLocation, canvas.width, canvas.height);
-    gl.uniform1f(timeLocation, t);
-
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-    animId = requestAnimationFrame(loop);
-  }
-
-  lastTime = performance.now();
-  loop(lastTime);
-}
-
-function initCanvas2DAurora(card, canvas) {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  let width = 0;
-  let height = 0;
-  let dpr = 1;
-  let isVisible = true;
-  let animId = null;
-
-  function resize() {
-    const rect = card.getBoundingClientRect();
-    width = rect.width;
-    height = rect.height;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    canvas.width = Math.floor(width * dpr);
-    canvas.height = Math.floor(height * dpr);
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-  }
-
-  resize();
-  window.addEventListener('resize', resize, { passive: true });
-
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        isVisible = entry.isIntersecting;
-        if (isVisible && !animId) {
-          lastTime = performance.now();
-          loop(lastTime);
-        }
-      });
-    }, { threshold: 0.05 });
-    observer.observe(card);
-  }
-
-  let t = 0;
-  let lastTime = performance.now();
-
-  function loop(now) {
-    if (!isVisible) {
-      animId = null;
-      return;
-    }
-
-    const dt = Math.min((now - lastTime) / 1000, 0.1);
-    lastTime = now;
-    t += dt * 0.6;
-
-    render();
-    animId = requestAnimationFrame(loop);
-  }
-
-  function render() {
-    if (width === 0 || height === 0) return;
-
-    ctx.save();
-    ctx.scale(dpr, dpr);
-    ctx.clearRect(0, 0, width, height);
-
-    // Dark Midnight Base
-    const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
-    bgGrad.addColorStop(0, '#020108');
-    bgGrad.addColorStop(0.5, '#060310');
-    bgGrad.addColorStop(1, '#030109');
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(0, 0, width, height);
-
-    // Diagonal Sweeping Purple Silk Ribbon
-    ctx.save();
-    ctx.globalCompositeOperation = 'screen';
-    ctx.beginPath();
-    
-    const startX = width * (0.05 + Math.sin(t * 0.5) * 0.03);
-    ctx.moveTo(startX, height + 10);
-
-    const cp1x = width * (0.35 + Math.sin(t * 0.8) * 0.06);
-    const cp1y = height * (0.65 + Math.cos(t * 0.6) * 0.04);
-    const cp2x = width * (0.55 + Math.cos(t * 0.7) * 0.05);
-    const cp2y = height * (0.25 + Math.sin(t * 0.9) * 0.04);
-    const endX = width * (0.85 + Math.sin(t * 0.4) * 0.04);
-
-    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, -10);
-    ctx.lineTo(endX + 160, -10);
-    ctx.bezierCurveTo(cp2x + 160, cp2y, cp1x + 160, cp1y, startX + 160, height + 10);
-    ctx.closePath();
-
-    const ribbonGrad = ctx.createLinearGradient(0, height, width, 0);
-    ribbonGrad.addColorStop(0, 'rgba(80, 40, 149, 0.95)');
-    ribbonGrad.addColorStop(0.5, 'rgba(126, 74, 200, 0.9)');
-    ribbonGrad.addColorStop(1, 'rgba(80, 40, 149, 0.4)');
-    ctx.fillStyle = ribbonGrad;
-    ctx.fill();
-    ctx.restore();
-
-    // Intense Purple-White Base Bloom at Bottom-Left
-    ctx.save();
-    ctx.globalCompositeOperation = 'screen';
-    const coreX = width * (0.15 + Math.sin(t * 0.5) * 0.04);
-    const coreY = height * (0.92 + Math.cos(t * 0.7) * 0.03);
-    const coreRx = width * 0.45;
-    const coreRy = height * 0.38;
-
-    const coreGlow = ctx.createRadialGradient(coreX, coreY, 5, coreX, coreY, coreRx);
-    coreGlow.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
-    coreGlow.addColorStop(0.25, 'rgba(243, 235, 255, 0.92)');
-    coreGlow.addColorStop(0.55, 'rgba(170, 126, 232, 0.68)');
-    coreGlow.addColorStop(1, 'rgba(80, 40, 149, 0)');
-
-    ctx.beginPath();
-    ctx.ellipse(coreX, coreY, coreRx, coreRy, 0, 0, Math.PI * 2);
-    ctx.fillStyle = coreGlow;
-    ctx.fill();
-    ctx.restore();
-
-    ctx.restore();
-  }
-
-  lastTime = performance.now();
-  loop(lastTime);
 }

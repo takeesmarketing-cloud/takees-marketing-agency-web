@@ -79,20 +79,32 @@ AddType font/woff     .woff
   # Old folder pages (/bangalore/about.html …) → the shared page
   RewriteRule ^(?:bangalore|kochi)/([a-z-]+)\.html$ /$1 [R=301,L]
 
-  # Addresses from the previous takees.in site → the matching page
-  RewriteRule ^about-takees-marketing/?$ /about [R=301,L]
-  RewriteRule ^digital-marketing-services/?$ /services [R=301,L]
-  RewriteRule ^digital-marketing-company-achievements/?$ /achievements [R=301,L]
-  RewriteRule ^contact-takees-marketing-company/?$ /contact [R=301,L]
+  # Addresses from the previous takees.in (WordPress) site → the matching page
+  RewriteRule ^(about-takees-marketing|about-takees-digital-marketing-agency-in-kannur-kerala|about-takees-marketing-in-kannur-kerala)/?$ /about [R=301,L]
+  RewriteRule ^(digital-marketing-services|services-of-takees-marketing-agency-kannur-kerala)/?$ /services [R=301,L]
+  RewriteRule ^(digital-marketing-company-achievements|portfolio2?|vastragni-branding|wgl-2|branding-v)/?$ /achievements [R=301,L]
+  RewriteRule ^(contact-takees-marketing-company|contact-page-of-best-digital-marketing-agency-in-kannur)/?$ /contact [R=301,L]
   RewriteRule ^best-digital-marketing-agency-in-bangalore/?$ /blog-details [R=301,L]
+  RewriteRule ^(best-digital-marketing-company-in-bangalore(-takees)?|digital-marketing-company-in-bangalore|social-media-marketing-in-bangalore|website-developer-in-bangalore)/?$ /bangalore [R=301,L]
+  RewriteRule ^(digital-marketing-company-in-kannur|website-developer-in-kannur|social-media-marketing-for-small-businesses-in-kannur)/?$ / [R=301,L]
+  RewriteRule ^(latest-ai-tools-for-marketers-to-use-not-to-miss-it|best-ai-tools-of-2026)/?$ /ai-tools [R=301,L]
+  RewriteRule ^co-working-space-in-kannur-takees-park-kannur/?$ https://takeescowork.com/ [R=301,L]
+
+  # The blog articles are kept in the site and open on the Blogs page
+  RewriteRule ^(good-news-for-jio-users-to-get-gemini-pro-for-free|how-does-instagram-search-engine-work-guide|how-long-does-digital-marketing-take-to-show-results|how-to-build-a-brand-through-social-media-simple-guide|how-to-start-business-from-zero-a-practical-guide|instagram-carousel-captions|instagram-instants|latest-instagram-updates|meta-ads-new-targeting-update|purple-cow-theory-what-it-means|what-is-70-20-10-rule-in-digital-marketing)/?$ /blogs#$1 [R=301,NE,L]
 
   # Visiting /about.html directly → /about
   RewriteCond %{THE_REQUEST} \s/+([a-z-]+)\.html[\s?]
   RewriteRule ^ /%1 [R=301,L]
 
   # A trailing slash on a page address → without it (/blogs/ → /blogs)
+  RewriteRule ^(about|services|achievements|blogs|blog-details|ai-tools|contact|bangalore|kochi)/$ /$1 [R=301,L]
+
+  # Any other old WordPress address (blog posts, categories; they all end with
+  # a slash) → the Blogs page
+  RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^([a-z-]+)/$ /$1 [R=301,L]
+  RewriteRule ^(.+/)$ /blogs [R=301,L]
 
   # Serve the clean address from its .html file
   RewriteCond %{REQUEST_FILENAME}.html -f
@@ -125,7 +137,16 @@ AddType font/woff     .woff
 # ----------------------------------------------------------
 #  Prevent access to hidden/dot files
 # ----------------------------------------------------------
-<FilesMatch "^\\.">
+<FilesMatch "^\.">
   Order allow,deny
   Deny from all
 </FilesMatch>
+
+# ----------------------------------------------------------
+#  Development Files
+#  The repository also holds tools that are not part of the
+#  website (local server, scripts, editor and AI settings);
+#  answer "not found" for them and for dot-folders
+#  (/.well-known stays open: it is used to renew the SSL certificate)
+# ----------------------------------------------------------
+RedirectMatch 404 ^/(\.(?!well-known)[^/]+|serve\.js|README\.md|[^/]+\.ps1|inspect_[a-z]+\.js|exports)(/|$)

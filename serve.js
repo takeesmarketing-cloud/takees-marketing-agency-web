@@ -8,6 +8,8 @@ const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
@@ -26,12 +28,33 @@ const server = http.createServer((req, res) => {
     res.end();
   };
   const isPage = (name) => fs.existsSync(path.join(__dirname, `${name}.html`));
+  const isArticle = (name) => fs.existsSync(path.join(__dirname, 'assets', 'articles', `${name}.json`));
   const oldAddresses = {
     'about-takees-marketing': '/about',
+    'about-takees-digital-marketing-agency-in-kannur-kerala': '/about',
+    'about-takees-marketing-in-kannur-kerala': '/about',
     'digital-marketing-services': '/services',
+    'services-of-takees-marketing-agency-kannur-kerala': '/services',
     'digital-marketing-company-achievements': '/achievements',
+    'portfolio': '/achievements',
+    'portfolio2': '/achievements',
+    'vastragni-branding': '/achievements',
+    'wgl-2': '/achievements',
+    'branding-v': '/achievements',
     'contact-takees-marketing-company': '/contact',
-    'best-digital-marketing-agency-in-bangalore': '/blog-details'
+    'contact-page-of-best-digital-marketing-agency-in-kannur': '/contact',
+    'best-digital-marketing-agency-in-bangalore': '/blog-details',
+    'best-digital-marketing-company-in-bangalore': '/bangalore',
+    'best-digital-marketing-company-in-bangalore-takees': '/bangalore',
+    'digital-marketing-company-in-bangalore': '/bangalore',
+    'social-media-marketing-in-bangalore': '/bangalore',
+    'website-developer-in-bangalore': '/bangalore',
+    'digital-marketing-company-in-kannur': '/',
+    'website-developer-in-kannur': '/',
+    'social-media-marketing-for-small-businesses-in-kannur': '/',
+    'latest-ai-tools-for-marketers-to-use-not-to-miss-it': '/ai-tools',
+    'best-ai-tools-of-2026': '/ai-tools',
+    'co-working-space-in-kannur-takees-park-kannur': 'https://takeescowork.com/'
   };
 
   // The home page is served at / only
@@ -45,14 +68,20 @@ const server = http.createServer((req, res) => {
   const folderPage = reqUrl.match(/^\/(?:bangalore|kochi)\/([a-z-]+)\.html$/);
   if (folderPage) return redirect(`/${folderPage[1]}`);
 
-  const page = reqUrl.match(/^\/([a-z-]+)(\.html|\/)?$/);
+  const page = reqUrl.match(/^\/([a-z0-9-]+)(\.html|\/)?$/);
   if (page) {
     const [, name, suffix] = page;
     if (oldAddresses[name]) return redirect(oldAddresses[name]);
+    // The blog articles are kept in the site and open on the Blogs page
+    if (suffix !== '.html' && isArticle(name)) return redirect(`/blogs#${name}`);
     if (isPage(name)) {
       if (suffix) return redirect(`/${name}`);
       reqUrl = `/${name}.html`;
     }
+  }
+  // Any other old WordPress address (they all end with a slash) → the Blogs page
+  if (reqUrl !== '/' && reqUrl.endsWith('/') && !fs.existsSync(path.join(__dirname, reqUrl))) {
+    return redirect('/blogs');
   }
   if (reqUrl.endsWith('/')) reqUrl += 'index.html';
 

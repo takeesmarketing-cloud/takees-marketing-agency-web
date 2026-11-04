@@ -8,10 +8,25 @@
   <meta name="description"
     content="Actionable guides, SEO strategies, Meta Ads breakdowns, and digital growth playbooks from the strategists at Takees Marketing.">
   <link rel="canonical" href="https://takees.in/blogs">
+  <!-- Link previews (WhatsApp, LinkedIn, Facebook, X) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takees Marketing">
+  <meta property="og:title" content="Digital Marketing & SEO Blogs | Takees Marketing">
+  <meta property="og:description" content="Actionable guides, SEO strategies, Meta Ads breakdowns, and digital growth playbooks from the strategists at Takees Marketing.">
+  <meta property="og:url" content="https://takees.in/blogs">
+  <meta property="og:image" content="https://takees.in/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Takees Marketing office">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Digital Marketing & SEO Blogs | Takees Marketing">
+  <meta name="twitter:description" content="Actionable guides, SEO strategies, Meta Ads breakdowns, and digital growth playbooks from the strategists at Takees Marketing.">
+  <meta name="twitter:image" content="https://takees.in/assets/og-image.jpg">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/style.css?v=20261104">
-  <link rel="stylesheet" href="css/responsive.css?v=20261104">
+  <link rel="stylesheet" href="css/style.css?v=20261104-9">
+  <link rel="stylesheet" href="css/responsive.css?v=20261104-9">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml"
@@ -43,9 +58,9 @@
     }
 
     .blog-article-dialog-header {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: space-between;
       gap: 16px;
       min-height: 68px;
       padding: 12px clamp(16px, 4vw, 56px);
@@ -53,7 +68,6 @@
       background: #fff;
     }
 
-    .blog-article-dialog-back,
     .blog-article-dialog-close {
       display: inline-flex;
       align-items: center;
@@ -63,22 +77,8 @@
       cursor: pointer;
     }
 
-    .blog-article-dialog-back {
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      color: #5b2bb5;
-      background: transparent;
-      font: inherit;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .blog-article-dialog-back:hover {
-      background: #f4effb;
-    }
-
     .blog-article-dialog-brand {
+      grid-column: 2;
       color: #5b2bb5;
       font-size: 14px;
       font-weight: 800;
@@ -86,7 +86,8 @@
     }
 
     .blog-article-dialog-close {
-      flex: 0 0 44px;
+      grid-column: 3;
+      justify-self: end;
       width: 44px;
       border: 1px solid #e6e1ec;
       border-radius: 50%;
@@ -148,28 +149,23 @@
 
     .blog-article-reader-title {
       margin: 0;
-      color: #211a2b;
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 750;
-      letter-spacing: -0.045em;
-      line-height: 1.12;
+      color: var(--text-main);
+      font-size: clamp(2rem, 3.2vw + 1rem, 3rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.16;
       overflow-wrap: anywhere;
     }
 
     .blog-article-reader-cover {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 10;
-      max-height: 430px;
+      aspect-ratio: 16 / 9;
       margin: 34px 0 42px;
       overflow: hidden;
       border-radius: 18px;
-      background: #ffffff;
-      border: 1px solid #edf0f5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
+      background: #160d2e;
+      box-shadow: 0 18px 40px rgba(54, 22, 111, 0.18);
     }
 
     .blog-article-reader-cover::after {
@@ -180,8 +176,7 @@
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      background: #ffffff;
+      object-fit: cover;
     }
 
     .blog-article-reader-content {
@@ -199,9 +194,9 @@
     .blog-article-reader-content h3,
     .blog-article-reader-content h4 {
       margin: 2em 0 0.7em;
-      color: #211a2b;
-      font-weight: 700;
-      letter-spacing: -0.025em;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: -0.02em;
       line-height: 1.25;
     }
 
@@ -304,11 +299,6 @@
         font-size: 12px;
       }
 
-      .blog-article-dialog-back {
-        padding: 8px 6px;
-        font-size: 13px;
-      }
-
       .blog-article-reader-inner {
         width: min(100% - 32px, 820px);
         padding-top: 36px;
@@ -401,12 +391,12 @@
               <span class="blog-date">May 26, 2026</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/instagram-carousel-captions/">Instagram Carousel Captions Are Finally Here | New Update</a>
+              <a href="/blogs#instagram-carousel-captions">Instagram Carousel Captions Are Finally Here | New Update</a>
             </h2>
             <p class="blog-item-excerpt">
               Discover how Instagram carousel captions improve storytelling, engagement, branding, and audience interaction. Read More!
             </p>
-            <a href="https://takees.in/instagram-carousel-captions/" class="blog-read-link">
+            <a href="/blogs#instagram-carousel-captions" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -425,12 +415,12 @@
               <span class="blog-date">May 19, 2026</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/instagram-instants/">Instagram Instants: Know About Instagram's New Feature</a>
+              <a href="/blogs#instagram-instants">Instagram Instants: Know About Instagram's New Feature</a>
             </h2>
             <p class="blog-item-excerpt">
               Instagram Instants is Instagram's exciting new feature that lets you share real, unedited photos that disappear after being viewed. Check out more!
             </p>
-            <a href="https://takees.in/instagram-instants/" class="blog-read-link">
+            <a href="/blogs#instagram-instants" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -449,12 +439,12 @@
               <span class="blog-date">Mar 12, 2026</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/meta-ads-new-targeting-update/">Meta Ads New Targeting Update: Describe Your Audience</a>
+              <a href="/blogs#meta-ads-new-targeting-update">Meta Ads New Targeting Update: Describe Your Audience</a>
             </h2>
             <p class="blog-item-excerpt">
               Meta Ads' new targeting update lets advertisers describe their audience instead of relying only on manual targeting. Learn how it's working!
             </p>
-            <a href="https://takees.in/meta-ads-new-targeting-update/" class="blog-read-link">
+            <a href="/blogs#meta-ads-new-targeting-update" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -473,12 +463,12 @@
               <span class="blog-date">Feb 14, 2026</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/how-does-instagram-search-engine-work-guide/">How Does Instagram Search Engine Work? | 2026 Guide</a>
+              <a href="/blogs#how-does-instagram-search-engine-work-guide">How Does Instagram Search Engine Work? | 2026 Guide</a>
             </h2>
             <p class="blog-item-excerpt">
               How does Instagram search engine work? Learn how Instagram search works and how to use SEO-friendly keywords to rank your page.
             </p>
-            <a href="https://takees.in/how-does-instagram-search-engine-work-guide/" class="blog-read-link">
+            <a href="/blogs#how-does-instagram-search-engine-work-guide" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -497,12 +487,12 @@
               <span class="blog-date">Jan 12, 2026</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/what-is-70-20-10-rule-in-digital-marketing/">What Is 70/20/10 Rule In Digital Marketing? A Simple Guide</a>
+              <a href="/blogs#what-is-70-20-10-rule-in-digital-marketing">What Is 70/20/10 Rule In Digital Marketing? A Simple Guide</a>
             </h2>
             <p class="blog-item-excerpt">
               Learn what is 70/20/10 rule in digital marketing, how it works, and how brands use it to balance consistency, growth, and experimentation.
             </p>
-            <a href="https://takees.in/what-is-70-20-10-rule-in-digital-marketing/" class="blog-read-link">
+            <a href="/blogs#what-is-70-20-10-rule-in-digital-marketing" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -521,12 +511,12 @@
               <span class="blog-date">Jan 9, 2026</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/how-long-does-digital-marketing-take-to-show-results/">How Long Does Digital Marketing Take To Show Results?</a>
+              <a href="/blogs#how-long-does-digital-marketing-take-to-show-results">How Long Does Digital Marketing Take To Show Results?</a>
             </h2>
             <p class="blog-item-excerpt">
               How long does digital marketing take to show results? Learn realistic timelines for SEO, social media, ads, and content marketing. Read More!
             </p>
-            <a href="https://takees.in/how-long-does-digital-marketing-take-to-show-results/" class="blog-read-link">
+            <a href="/blogs#how-long-does-digital-marketing-take-to-show-results" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -545,12 +535,12 @@
               <span class="blog-date">Dec 18, 2025</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/latest-instagram-updates/">Instagram Updates: What’s New | Takees Marketing Blog Post</a>
+              <a href="/blogs#latest-instagram-updates">Instagram Updates: What’s New | Takees Marketing Blog Post</a>
             </h2>
             <p class="blog-item-excerpt">
               Learn about the latest Instagram updates, what has changed, and how these updates impact reach, engagement, and content strategy.
             </p>
-            <a href="https://takees.in/latest-instagram-updates/" class="blog-read-link">
+            <a href="/blogs#latest-instagram-updates" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -569,12 +559,12 @@
               <span class="blog-date">Dec 9, 2025</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/purple-cow-theory-what-it-means/">Purple Cow Marketing: How to Make Your Brand Stand Out in a Crowded Market</a>
+              <a href="/blogs#purple-cow-theory-what-it-means">Purple Cow Marketing: How to Make Your Brand Stand Out in a Crowded Market</a>
             </h2>
             <p class="blog-item-excerpt">
               A simple and human friendly explanation of the purple cow theory, why people ask about it, and how brands can use it to stand out.
             </p>
-            <a href="https://takees.in/purple-cow-theory-what-it-means/" class="blog-read-link">
+            <a href="/blogs#purple-cow-theory-what-it-means" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -593,12 +583,12 @@
               <span class="blog-date">Nov 29, 2025</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/how-to-start-business-from-zero-a-practical-guide/">How To Start Business From Zero: Simple Steps For Beginners</a>
+              <a href="/blogs#how-to-start-business-from-zero-a-practical-guide">How To Start Business From Zero: Simple Steps For Beginners</a>
             </h2>
             <p class="blog-item-excerpt">
               A clear and simple guide on how to start business from zero, covering planning, branding, marketing and early growth strategies.
             </p>
-            <a href="https://takees.in/how-to-start-business-from-zero-a-practical-guide/" class="blog-read-link">
+            <a href="/blogs#how-to-start-business-from-zero-a-practical-guide" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -617,12 +607,12 @@
               <span class="blog-date">Nov 14, 2025</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/how-to-build-a-brand-through-social-media-simple-guide/">How To Build A Brand Through Social Media: Simple Guide</a>
+              <a href="/blogs#how-to-build-a-brand-through-social-media-simple-guide">How To Build A Brand Through Social Media: Simple Guide</a>
             </h2>
             <p class="blog-item-excerpt">
               Learn how to build a brand through social media using simple steps, clear strategies, and practical content ideas. Don't Miss Out!
             </p>
-            <a href="https://takees.in/how-to-build-a-brand-through-social-media-simple-guide/" class="blog-read-link">
+            <a href="/blogs#how-to-build-a-brand-through-social-media-simple-guide" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -641,12 +631,12 @@
               <span class="blog-date">Nov 5, 2025</span>
             </div>
             <h2 class="blog-item-title">
-              <a href="https://takees.in/good-news-for-jio-users-to-get-gemini-pro-for-free/">How to Add Gemini Pro for All Jio Users | Step-by-Step Guide</a>
+              <a href="/blogs#good-news-for-jio-users-to-get-gemini-pro-for-free">How to Add Gemini Pro for All Jio Users | Step-by-Step Guide</a>
             </h2>
             <p class="blog-item-excerpt">
               Learn how to add or claim Gemini Pro for all Jio users with this easy guide. Get free access to Google AI Pro. Why wait! Go and Grab Now!
             </p>
-            <a href="https://takees.in/good-news-for-jio-users-to-get-gemini-pro-for-free/" class="blog-read-link">
+            <a href="/blogs#good-news-for-jio-users-to-get-gemini-pro-for-free" class="blog-read-link">
               Read Article <span class="btn-arrow-icon">↗</span>
             </a>
           </div>
@@ -664,10 +654,6 @@
 
     const dialogHeader = document.createElement("div");
     dialogHeader.className = "blog-article-dialog-header";
-    const backButton = document.createElement("button");
-    backButton.className = "blog-article-dialog-back";
-    backButton.type = "button";
-    backButton.textContent = "← All articles";
     const dialogBrand = document.createElement("span");
     dialogBrand.className = "blog-article-dialog-brand";
     dialogBrand.textContent = "TAKEES / INSIGHTS";
@@ -676,7 +662,7 @@
     closeButton.type = "button";
     closeButton.setAttribute("aria-label", "Close article");
     closeButton.textContent = "×";
-    dialogHeader.append(backButton, dialogBrand, closeButton);
+    dialogHeader.append(dialogBrand, closeButton);
 
     const reader = document.createElement("div");
     reader.className = "blog-article-reader";
@@ -737,11 +723,14 @@
         const href = sourceNode.getAttribute("href");
         if (href) {
           try {
-            const safeUrl = new URL(href, "https://takees.in/");
-            if (safeUrl.protocol === "https:" || safeUrl.protocol === "http:") {
+            const safeUrl = new URL(href, window.location.origin);
+            if (["https:", "http:", "tel:", "mailto:"].includes(safeUrl.protocol)) {
               safeNode.href = safeUrl.href;
-              safeNode.target = "_blank";
-              safeNode.rel = "noopener noreferrer";
+              // Links to other websites open in a new tab
+              if (safeUrl.protocol.startsWith("http") && safeUrl.origin !== window.location.origin) {
+                safeNode.target = "_blank";
+                safeNode.rel = "noopener noreferrer";
+              }
             }
           } catch (error) {
             console.warn("Skipped an invalid link in an article.", error);
@@ -751,8 +740,8 @@
         const src = sourceNode.getAttribute("src");
         if (!src) return;
         try {
-          const imageUrl = new URL(src, "https://takees.in/");
-          if (imageUrl.protocol !== "https:" || imageUrl.hostname !== "takees.in") return;
+          const imageUrl = new URL(src, window.location.origin);
+          if (imageUrl.origin !== window.location.origin) return;
           safeNode.src = imageUrl.href;
         } catch (error) {
           console.warn("Skipped an invalid image in an article.", error);
@@ -766,7 +755,7 @@
       parentNode.append(safeNode);
     }
 
-    function setReaderStatus(message, retryUrl) {
+    function setReaderStatus(message, retrySlug) {
       const status = document.createElement("div");
       status.className = "blog-article-reader-status";
       status.setAttribute("role", "status");
@@ -774,44 +763,39 @@
       const messageText = document.createElement("p");
       messageText.textContent = message;
       status.append(messageText);
-      if (retryUrl) {
+      if (retrySlug) {
         const retryButton = document.createElement("button");
         retryButton.type = "button";
         retryButton.textContent = "Try again";
-        retryButton.addEventListener("click", () => loadArticle(retryUrl));
+        retryButton.addEventListener("click", () => loadArticle(retrySlug));
         status.append(retryButton);
       }
       readerContent.replaceChildren(status);
     }
 
-    async function loadArticle(articleUrl) {
+    // Each article is saved in the site as assets/articles/<slug>.json
+    async function loadArticle(slug) {
       articleRequest?.abort();
       articleRequest = new AbortController();
       const currentRequest = articleRequest;
       setReaderStatus("Loading the full article…");
 
       try {
-        const articleAddress = new URL(articleUrl);
-        if (articleAddress.hostname !== "takees.in" || articleAddress.protocol !== "https:") {
+        if (!/^[a-z0-9-]+$/.test(slug)) {
           throw new Error("This article address is not a valid Takees article.");
         }
 
-        const slug = articleAddress.pathname.split("/").filter(Boolean).pop();
-        const endpoint = new URL("https://takees.in/wp-json/wp/v2/posts");
-        endpoint.searchParams.set("slug", slug);
-        endpoint.searchParams.set("_fields", "date,title,content");
-        const response = await fetch(endpoint, { signal: currentRequest.signal });
+        const response = await fetch(`/assets/articles/${slug}.json`, { signal: currentRequest.signal });
         if (!response.ok) {
           throw new Error(`The article could not be loaded (HTTP ${response.status}).`);
         }
 
-        const posts = await response.json();
-        if (!posts.length || !posts[0].content?.rendered) {
+        const post = await response.json();
+        if (!post.html) {
           throw new Error("The full article content is not available right now.");
         }
 
-        const post = posts[0];
-        const parsedContent = new DOMParser().parseFromString(post.content.rendered, "text/html");
+        const parsedContent = new DOMParser().parseFromString(post.html, "text/html");
         const safeContent = document.createDocumentFragment();
         parsedContent.body.childNodes.forEach(child => addSafeArticleNode(child, safeContent));
 
@@ -824,8 +808,6 @@
           }
         }
 
-        const apiTitle = new DOMParser().parseFromString(post.title.rendered, "text/html").body.textContent.trim();
-        readerTitle.textContent = apiTitle || readerTitle.textContent;
         const publishedDate = new Date(post.date);
         if (!Number.isNaN(publishedDate.getTime())) {
           readerDate.dateTime = publishedDate.toISOString();
@@ -840,8 +822,33 @@
       } catch (error) {
         if (error.name === "AbortError") return;
         console.error("Unable to load the full Takees article.", error);
-        setReaderStatus("We couldn't load this article just now. Check your connection and try again.", articleUrl);
+        setReaderStatus("We couldn't load this article just now. Check your connection and try again.", slug);
       }
+    }
+
+    // Cards link to /blogs#<slug>, so every article has its own shareable address
+    const slugOf = link => link.hash.slice(1);
+    const cardFor = slug => [...blogGrid.querySelectorAll(".blog-read-link")]
+      .find(link => slugOf(link) === slug)?.closest(".blog-card");
+
+    function openArticle(card, slug) {
+      readerTitle.textContent = card.querySelector(".blog-item-title").textContent.trim();
+      readerCategory.textContent = card.querySelector(".blog-category-tag").textContent.trim();
+      readerDate.textContent = card.querySelector(".blog-date").textContent.trim();
+      readerDate.removeAttribute("datetime");
+      // Each article has a branded cover; fall back to the card picture without one
+      const thumb = card.querySelector(".blog-thumb-img");
+      readerImage.onerror = () => {
+        readerImage.onerror = null;
+        readerImage.src = thumb.src;
+      };
+      readerImage.src = `/assets/images/blogs/covers/${slug}.svg`;
+      readerImage.alt = thumb.alt;
+      reader.scrollTop = 0;
+      if (!articleDialog.open) articleDialog.showModal();
+      closeButton.focus();
+      if (window.location.hash !== `#${slug}`) history.replaceState(null, "", `#${slug}`);
+      loadArticle(slug);
     }
 
     blogGrid.addEventListener("click", event => {
@@ -849,30 +856,37 @@
       if (!articleLink) return;
 
       event.preventDefault();
-      const card = articleLink.closest(".blog-card");
-      readerTitle.textContent = card.querySelector(".blog-item-title").textContent.trim();
-      readerCategory.textContent = card.querySelector(".blog-category-tag").textContent.trim();
-      readerDate.textContent = card.querySelector(".blog-date").textContent.trim();
-      readerDate.removeAttribute("datetime");
-      readerImage.src = card.querySelector(".blog-thumb-img").src;
-      readerImage.alt = card.querySelector(".blog-thumb-img").alt;
-      reader.scrollTop = 0;
-      articleDialog.showModal();
-      backButton.focus();
-      loadArticle(articleLink.href);
+      openArticle(articleLink.closest(".blog-card"), slugOf(articleLink));
     });
 
-    backButton.addEventListener("click", () => articleDialog.close());
-    closeButton.addEventListener("click", () => articleDialog.close());
-    articleDialog.addEventListener("click", event => {
-      if (event.target === articleDialog) articleDialog.close();
-    });
-    articleDialog.addEventListener("close", () => {
+    // Opening /blogs#<slug> (a shared link, or an old article address) shows that article
+    const openFromAddress = () => {
+      const slug = window.location.hash.slice(1);
+      const card = slug && cardFor(slug);
+      if (card) openArticle(card, slug);
+    };
+    window.addEventListener("hashchange", openFromAddress);
+    openFromAddress();
+
+    function resetReader() {
       articleRequest?.abort();
       readerContent.replaceChildren();
       readerImage.removeAttribute("src");
       readerImage.alt = "";
+      if (window.location.hash) history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+
+    const closeArticle = () => {
+      articleDialog.close();
+      resetReader();
+    };
+
+    closeButton.addEventListener("click", closeArticle);
+    articleDialog.addEventListener("click", event => {
+      if (event.target === articleDialog) closeArticle();
     });
+    // Also covers closing with the Esc key
+    articleDialog.addEventListener("close", resetReader);
   </script>
 
   <!-- =========================================================================
@@ -903,7 +917,7 @@
     <div class="container">
       <div class="footer-top">
         <div class="footer-brand">
-          <a href="/" class="brand-logo" aria-label="Takees Marketing Home"><img src="assets/Vector.png" alt="Takees Marketing"></a>
+          <a href="/" class="brand-logo" aria-label="Takees Marketing Home"><img loading="lazy" src="assets/Vector.png" alt="Takees Marketing"></a>
           <p class="footer-desc">
             Takees Marketing is a full-service digital marketing agency headquartered in Kannur, Kerala, with operations
             in UB City Bangalore. Helping ambitious brands scale through strategic creative, web engineering, and
@@ -932,7 +946,7 @@
         </div>
 
         <div>
-          <h4 class="footer-col-title">ECOSYSTEM</h4>
+          <h3 class="footer-col-title">ECOSYSTEM</h3>
           <ul class="footer-links">
             <li><a href="https://takeescowork.com/" class="footer-link" target="_blank" rel="noopener noreferrer">Takees CO-WORK</a></li>
             <li><a href="https://takeesestates.com/" class="footer-link" target="_blank" rel="noopener noreferrer">Takees Estates</a></li>
@@ -940,7 +954,7 @@
         </div>
 
         <div>
-          <h4 class="footer-col-title">LINKS</h4>
+          <h3 class="footer-col-title">LINKS</h3>
           <ul class="footer-links">
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about" class="footer-link">About Us</a></li>
@@ -954,7 +968,7 @@
 
         <!-- Col 4: Services -->
         <div>
-          <h4 class="footer-col-title">SERVICES</h4>
+          <h3 class="footer-col-title">SERVICES</h3>
           <ul class="footer-links">
             <li><a href="/services#social-media" class="footer-link">Social Media Marketing</a></li>
             <li><a href="/services#branding" class="footer-link">Branding &amp; Identity</a></li>
@@ -968,12 +982,12 @@
 
         <!-- Col 5: Locations -->
         <div>
-          <h4 class="footer-col-title">LOCATIONS</h4>
+          <h3 class="footer-col-title">LOCATIONS</h3>
           <ul class="footer-links">
             <li><a href="/" class="footer-link">Digital Marketing Kannur</a></li>
             <li><a href="/bangalore" class="footer-link">Digital Marketing Bangalore</a></li>
             <li><a href="/kochi" class="footer-link">Digital Marketing Kochi</a></li>
-            <li><a href="#" class="footer-link">Digital Marketing Calicut</a></li>
+            <li><a href="/contact#whereToFind" class="footer-link">Digital Marketing Calicut</a></li>
           </ul>
         </div>
       </div>
@@ -1003,7 +1017,7 @@
   </a>
 
   <!-- JavaScript -->
-  <script src="js/main.js?v=20261104"></script>
+  <script src="js/main.js?v=20261104-9"></script>
 </body>
 
 </html>

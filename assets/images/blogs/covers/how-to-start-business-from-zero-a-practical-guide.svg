@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#160d2e"/>
+      <stop offset="0.55" stop-color="#36166f"/>
+      <stop offset="1" stop-color="#5b2bb5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <text font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-1.5" fill="#ffffff"><tspan x="80" y="281">How to Start Business</tspan><tspan x="80" y="362">from Zero</tspan></text>
+  <text font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" font-weight="500" fill="#d9ccf5"><tspan x="80" y="431">A Simple and Practical Guide</tspan></text>
+</svg>

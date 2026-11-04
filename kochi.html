@@ -8,11 +8,26 @@
   <meta name="description"
     content="Takees Marketing is a trusted digital marketing agency in Kochi, offering SEO, web design, social media marketing, and digital advertising to grow your business.">
   <link rel="canonical" href="https://takees.in/kochi">
+  <!-- Link previews (WhatsApp, LinkedIn, Facebook, X) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takees Marketing">
+  <meta property="og:title" content="Digital Marketing Agency in Kochi | Takees Marketing">
+  <meta property="og:description" content="Takees Marketing is a trusted digital marketing agency in Kochi, offering SEO, web design, social media marketing, and digital advertising to grow your business.">
+  <meta property="og:url" content="https://takees.in/kochi">
+  <meta property="og:image" content="https://takees.in/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Takees Marketing office">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Digital Marketing Agency in Kochi | Takees Marketing">
+  <meta name="twitter:description" content="Takees Marketing is a trusted digital marketing agency in Kochi, offering SEO, web design, social media marketing, and digital advertising to grow your business.">
+  <meta name="twitter:image" content="https://takees.in/assets/og-image.jpg">
 
-  <link rel="stylesheet" href="css/style.css?v=20261104">
-  <link rel="stylesheet" href="css/responsive.css?v=20261104">
-  <link rel="stylesheet" href="css/clients.css?v=20261104">
-  <link rel="stylesheet" href="css/kochi.css?v=20261104">
+  <link rel="stylesheet" href="css/style.css?v=20261104-9">
+  <link rel="stylesheet" href="css/responsive.css?v=20261104-9">
+  <link rel="stylesheet" href="css/clients.css?v=20261104-9">
+  <link rel="stylesheet" href="css/kochi.css?v=20261104-9">
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23582AA6'/><text x='16' y='22' fill='%23ffffff' font-size='18' font-weight='800' font-family='sans-serif' text-anchor='middle'>t</text></svg>">
 </head>
@@ -50,7 +65,6 @@
   <section class="home-hero hero-clean" id="homeHero">
     <div class="container">
       <div class="hero-content">
-        <span class="kicker hero-badge"><span class="hero-badge-chip">Kochi</span>Takees Marketing · Kerala</span>
         <h1 class="hero-heading"><span class="hero-muted">Digital</span> <span class="hero-muted">Marketing</span>
           <span class="hero-muted">Agency</span> in Kochi</h1>
         <p class="hero-description">
@@ -70,7 +84,7 @@
   <!-- =========================================================================
        CLIENTS
        ========================================================================= -->
-  <section class="clients-section is-collapsed" id="clients" aria-labelledby="clientsTitle">
+  <section class="clients-section" id="clients" aria-labelledby="clientsTitle">
     <div class="container clients-container">
       <header class="clients-header">
         <h2 class="clients-title" id="clientsTitle">Our Clients</h2>
@@ -78,18 +92,10 @@
         </p>
       </header>
 
-      <div class="clients-filter-bar">
-        <div class="clients-filters" role="group" aria-label="Filter clients by industry">
-          <button class="clients-filter is-active" id="clientsToggle" type="button" data-client-filter="all"
-            aria-expanded="false" aria-controls="clientsGridPanel">Show Clients</button>
-        </div>
-      </div>
-      <p class="clients-results" id="clientsResults" aria-live="polite">Click Show Clients to view our clients</p>
-
-      <div class="clients-grid-panel" id="clientsGridPanel" aria-hidden="true" inert>
+      <div class="clients-slider">
         <ul class="clients-grid" id="clientsGrid" aria-label="Takees clients">
           <li class="client-logo">
-            <div class="client-logo__image-wrap"><img src="assets/images/Al Barsha logo 1.png" alt="Al Barsha" loading="lazy"></div>
+            <div class="client-logo__image-wrap"><img src="assets/images/Al Barsha logo 1.webp" alt="Al Barsha" loading="lazy"></div>
           </li>
           <li class="client-logo">
             <div class="client-logo__image-wrap"><img src="assets/images/Elor Colour.png" alt="Elor Lighting" loading="lazy"></div>
@@ -167,7 +173,7 @@
             <div class="client-logo__image-wrap"><img src="assets/images/bgbg.png" alt="Vastrangi" loading="lazy"></div>
           </li>
           <li class="client-logo">
-            <div class="client-logo__image-wrap"><img src="assets/images/Untitled-1 45.png" alt="The Monsoon Restaurant" loading="lazy"></div>
+            <div class="client-logo__image-wrap"><img src="assets/images/Untitled-1 45.webp" alt="The Monsoon Restaurant" loading="lazy"></div>
           </li>
           <li class="client-logo">
             <div class="client-logo__image-wrap"><img src="assets/images/WhatsApp Image 2026-06-16 at 8.49.05 PM copy 1.png" alt="Flyscanner Travel and Tourism" loading="lazy"></div>
@@ -182,7 +188,7 @@
             <div class="client-logo__image-wrap"><img src="assets/images/Dr Febi's Brand Guideline 2.png" alt="Dr. Febi's Ortho, Rehab, and Sports Medicine" loading="lazy"></div>
           </li>
           <li class="client-logo">
-            <div class="client-logo__image-wrap"><img src="assets/images/Base Brand Guideline-2 1.png" alt="Base Shoes and Bags" loading="lazy"></div>
+            <div class="client-logo__image-wrap"><img src="assets/images/Base Brand Guideline-2 1.webp" alt="Base Shoes and Bags" loading="lazy"></div>
           </li>
         </ul>
       </div>
@@ -552,18 +558,18 @@
     <div class="container">
       <div class="footer-top">
         <div class="footer-brand">
-          <a href="/" class="brand-logo" aria-label="Takees Marketing Home"><img src="assets/Vector.png" alt="Takees Marketing"></a>
+          <a href="/" class="brand-logo" aria-label="Takees Marketing Home"><img loading="lazy" src="assets/Vector.png" alt="Takees Marketing"></a>
           <p class="footer-desc">Takees Kochi helps ambitious brands build a stronger digital presence through strategic creative, web engineering, and performance marketing.</p>
         </div>
         <div>
-          <h4 class="footer-col-title">ECOSYSTEM</h4>
+          <h3 class="footer-col-title">ECOSYSTEM</h3>
           <ul class="footer-links">
             <li><a href="https://takeescowork.com/" class="footer-link" target="_blank" rel="noopener noreferrer">Takees CO-WORK</a></li>
             <li><a href="https://takeesestates.com/" class="footer-link" target="_blank" rel="noopener noreferrer">Takees Estates</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="footer-col-title">LINKS</h4>
+          <h3 class="footer-col-title">LINKS</h3>
           <ul class="footer-links">
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about" class="footer-link">About Us</a></li>
@@ -575,7 +581,7 @@
           </ul>
         </div>
         <div>
-          <h4 class="footer-col-title">SERVICES</h4>
+          <h3 class="footer-col-title">SERVICES</h3>
           <ul class="footer-links">
             <li><a href="/services#social-media" class="footer-link">Social Media Marketing</a></li>
             <li><a href="/services#branding" class="footer-link">Branding &amp; Identity</a></li>
@@ -587,12 +593,12 @@
           </ul>
         </div>
         <div>
-          <h4 class="footer-col-title">LOCATIONS</h4>
+          <h3 class="footer-col-title">LOCATIONS</h3>
           <ul class="footer-links">
             <li><a href="/" class="footer-link">Digital Marketing Kannur</a></li>
             <li><a href="/bangalore" class="footer-link">Digital Marketing Bangalore</a></li>
             <li><a href="/kochi" class="footer-link">Digital Marketing Kochi</a></li>
-            <li><a href="#" class="footer-link">Digital Marketing Calicut</a></li>
+            <li><a href="/contact#whereToFind" class="footer-link">Digital Marketing Calicut</a></li>
           </ul>
         </div>
       </div>
@@ -615,7 +621,7 @@
     <span class="tooltip">Chat with us on WhatsApp</span>
   </a>
 
-  <script src="js/main.js?v=20261104"></script>
+  <script src="js/main.js?v=20261104-9"></script>
 </body>
 
 </html>
