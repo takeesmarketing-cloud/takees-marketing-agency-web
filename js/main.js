@@ -4,6 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  tidyHomeAddress();
   clearLegacyThemePreference();
   initClients();
   initNavigation();
@@ -23,6 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveals();
   initParallaxEffects();
 });
+
+/**
+ * Visitors sent on from the old cached home page arrive at /?home
+ * (see wp-includes/js/jquery/jquery.min.js); show the address as plain /.
+ */
+function tidyHomeAddress() {
+  if (window.location.pathname === '/' && window.location.search === '?home') {
+    history.replaceState(null, '', '/' + window.location.hash);
+  }
+}
 
 function clearLegacyThemePreference() {
   try {
