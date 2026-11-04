@@ -20,6 +20,16 @@ AddType font/woff2    .woff2
 AddType font/woff     .woff
 
 # ----------------------------------------------------------
+#  Server Page Cache (LiteSpeed)
+#  The site is plain HTML, so the server page cache left over from
+#  the old WordPress site is switched off; it kept serving the old
+#  WordPress home page
+# ----------------------------------------------------------
+<IfModule LiteSpeed>
+  CacheLookup off
+</IfModule>
+
+# ----------------------------------------------------------
 #  Compression (Gzip)
 # ----------------------------------------------------------
 <IfModule mod_deflate.c>
@@ -32,8 +42,8 @@ AddType font/woff     .woff
 <IfModule mod_expires.c>
   ExpiresActive On
 
-  # HTML — short cache (content changes)
-  ExpiresByType text/html                 "access plus 1 hour"
+  # HTML — always checked with the server, so a new deploy shows at once
+  ExpiresByType text/html                 "access plus 0 seconds"
 
   # CSS & JS — medium cache
   ExpiresByType text/css                  "access plus 1 week"
@@ -98,6 +108,10 @@ AddType font/woff     .woff
 #  Security Headers
 # ----------------------------------------------------------
 <IfModule mod_headers.c>
+  # Pages must not be served from an old cached copy (browser, CDN or server)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
   # Prevent MIME-type sniffing
   Header always set X-Content-Type-Options "nosniff"
   # Prevent clickjacking
