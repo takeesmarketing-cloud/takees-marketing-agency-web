@@ -916,9 +916,19 @@ h1, h2, h3, h4, h5, h6,
   margin-inline: calc(50% - 50vw);
 }
 
+/* Moved by initMarqueeMotion: rows can be dragged sideways, while vertical
+   swipes still scroll the page */
 .team-marquee {
   overflow: hidden;
   padding-top: 8px;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.team-marquee.is-dragging {
+  cursor: grabbing;
 }
 
 .team-marquee-track {
@@ -927,15 +937,7 @@ h1, h2, h3, h4, h5, h6,
   display: flex;
   gap: var(--team-gap);
   width: max-content;
-  animation: teamMarquee var(--team-duration, 48s) linear infinite;
-}
-
-.team-marquee.is-reverse .team-marquee-track {
-  animation-direction: reverse;
-}
-
-.team-marquee:hover .team-marquee-track {
-  animation-play-state: paused;
+  will-change: transform;
 }
 
 /* The cards scroll in from the sides, so they skip the scroll-reveal fade */
@@ -943,12 +945,6 @@ h1, h2, h3, h4, h5, h6,
   flex: 0 0 var(--team-card);
   opacity: 1;
   transform: none;
-}
-
-@keyframes teamMarquee {
-  from { transform: translateX(0); }
-  /* Each row holds its cards twice: half the track plus half a gap is one full set */
-  to { transform: translateX(calc(-50% - var(--team-gap) / 2)); }
 }
 
 @media (max-width: 640px) {

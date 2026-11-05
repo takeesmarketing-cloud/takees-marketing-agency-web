@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBlogFilter();
   initPricing();
   initTeamMarquee();
+  initMarqueeMotion();
 
   // Premium Marketing Agency Motion Suite
   initHeroHeadlineReveal();
@@ -76,6 +77,140 @@ function initPricing() {
  * directions. Each row holds its cards twice so the slide can loop without a
  * jump. Without JS, or with reduced motion, the plain grid stays.
  */
+/**
+ * Motion for the sliding rows (team photos, client logos). Each row drifts at
+ * its own pace, speeds up while the page is scrolled (and briefly runs the
+ * other way when scrolling up), can be dragged or swiped with momentum, and
+ * eases to a stop under a mouse. Rows hold their items twice, so the position
+ * wraps by one set's width without a visible jump.
+ */
+function initMarqueeMotion() {
+  const tracks = document.querySelectorAll('.team-marquee-track, .clients-marquee-track');
+  if (!tracks.length) return;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  const rows = Array.from(tracks).map(track => {
+    const row = track.parentElement;
+    const seconds = parseFloat(track.style.getPropertyValue('--team-duration'))
+      || parseFloat(track.style.getPropertyValue('--clients-duration')) || 48;
+    return {
+      track, row, seconds,
+      direction: row.classList.contains('is-reverse') ? 1 : -1,
+      setWidth: 0, offset: 0, speed: 0, boost: 0, fling: 0,
+      hovered: false, drag: null, visible: true,
+    };
+  });
+
+  // One set's width: from the first item to the first copy of it
+  const measure = state => {
+    const items = state.track.children;
+    const half = items.length / 2;
+    const oldWidth = state.setWidth;
+    state.setWidth = items[half].offsetLeft - items[0].offsetLeft;
+    if (oldWidth) state.offset *= state.setWidth / oldWidth;
+  };
+  const wrap = state => {
+    const w = state.setWidth;
+    if (w > 0) state.offset = ((state.offset % w) + w) % w - w;
+  };
+
+  rows.forEach(state => {
+    const { row, track } = state;
+    track.querySelectorAll('img').forEach(img => { img.draggable = false; });
+    measure(state);
+    state.offset = state.direction > 0 ? -state.setWidth : 0;
+    state.speed = state.setWidth / state.seconds;
+
+    if (finePointer) {
+      row.addEventListener('mouseenter', () => { state.hovered = true; });
+      row.addEventListener('mouseleave', () => { state.hovered = false; });
+    }
+
+    // Drag or swipe sideways; vertical swipes are left to the page scroll
+    row.addEventListener('pointerdown', event => {
+      if (event.button !== 0) return;
+      state.drag = { x: event.clientX, y: event.clientY, start: state.offset, axis: null, lastX: event.clientX, lastT: event.timeStamp, velocity: 0 };
+    });
+    row.addEventListener('pointermove', event => {
+      const drag = state.drag;
+      if (!drag) return;
+      const dx = event.clientX - drag.x;
+      if (!drag.axis) {
+        if (Math.abs(dx) < 6 && Math.abs(event.clientY - drag.y) < 6) return;
+        drag.axis = Math.abs(dx) > Math.abs(event.clientY - drag.y) ? 'x' : 'y';
+        if (drag.axis === 'x') {
+          row.setPointerCapture(event.pointerId);
+          row.classList.add('is-dragging');
+        }
+      }
+      if (drag.axis !== 'x') return;
+      const dt = Math.max(event.timeStamp - drag.lastT, 1) / 1000;
+      drag.velocity = (event.clientX - drag.lastX) / dt;
+      drag.lastX = event.clientX;
+      drag.lastT = event.timeStamp;
+      state.offset = drag.start + dx;
+      wrap(state);
+    });
+    const endDrag = () => {
+      if (state.drag && state.drag.axis === 'x') {
+        state.fling = Math.max(-3000, Math.min(3000, state.drag.velocity));
+        row.classList.remove('is-dragging');
+      }
+      state.drag = null;
+    };
+    row.addEventListener('pointerup', endDrag);
+    row.addEventListener('pointercancel', endDrag);
+  });
+
+  // Only rows on screen are moved
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const state = rows.find(s => s.row === entry.target);
+        if (state) state.visible = entry.isIntersecting;
+      });
+    }, { rootMargin: '100px 0px' });
+    rows.forEach(state => observer.observe(state.row));
+  }
+
+  let scrollKick = 0;
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    scrollKick += window.scrollY - lastScrollY;
+    lastScrollY = window.scrollY;
+  }, { passive: true });
+  window.addEventListener('resize', () => rows.forEach(state => { measure(state); wrap(state); }));
+
+  let lastTime = performance.now();
+  const frame = now => {
+    const dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+    const kick = scrollKick;
+    scrollKick = 0;
+
+    rows.forEach(state => {
+      const base = state.setWidth / state.seconds;
+      // Ease towards the normal pace, or to a stop under the mouse
+      const target = state.hovered && !state.drag ? 0 : base;
+      state.speed += (target - state.speed) * (1 - Math.exp(-dt * 5));
+      // Scrolling adds speed: down pushes the row on, up pulls it back
+      state.boost += kick * 6;
+      state.boost = Math.max(-base * 10, Math.min(base * 10, state.boost)) * Math.exp(-dt * 3);
+      state.fling *= Math.exp(-dt * 2.5);
+
+      if (!state.visible) return;
+      // While dragged the row follows the pointer (set in pointermove)
+      if (!(state.drag && state.drag.axis === 'x')) {
+        state.offset += (state.direction * (state.speed + state.boost) + state.fling) * dt;
+        wrap(state);
+      }
+      state.track.style.transform = `translate3d(${state.offset.toFixed(2)}px, 0, 0)`;
+    });
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+
 function initTeamMarquee() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 

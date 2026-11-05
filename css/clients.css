@@ -63,8 +63,18 @@
   margin-inline: calc(50% - 50vw);
 }
 
+/* Moved by initMarqueeMotion: the row can be dragged sideways, while vertical
+   swipes still scroll the page */
 .clients-marquee {
   overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.clients-marquee.is-dragging {
+  cursor: grabbing;
 }
 
 .clients-marquee-track {
@@ -76,11 +86,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  animation: clientsMarquee var(--clients-duration, 48s) linear infinite;
-}
-
-.clients-marquee:hover .clients-marquee-track {
-  animation-play-state: paused;
+  will-change: transform;
 }
 
 /* In the sliding row the logos are plain white marks on the dark band */
@@ -106,10 +112,20 @@
   opacity: 1;
 }
 
-@keyframes clientsMarquee {
-  from { transform: translateX(0); }
-  /* Each row holds its logos twice: half the track plus half a gap is one full set */
-  to { transform: translateX(calc(-50% - var(--clients-gap) / 2)); }
+/* No card highlight when a logo is hovered, tapped or focused: a white box
+   would hide the white logo */
+.clients-marquee .client-logo:hover,
+.clients-marquee .client-logo:active,
+.clients-marquee .client-logo:focus,
+.clients-marquee .client-logo:focus-visible,
+.clients-marquee .client-logo:focus-within {
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.clients-marquee .client-logo {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .client-logo {
