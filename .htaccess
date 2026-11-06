@@ -90,22 +90,8 @@ AddType font/woff     .woff
   RewriteRule ^(latest-ai-tools-for-marketers-to-use-not-to-miss-it|best-ai-tools-of-2026)/?$ /ai-tools [R=301,L]
   RewriteRule ^co-working-space-in-kannur-takees-park-kannur/?$ https://takeescowork.com/ [R=301,L]
 
-  # Canonical article URLs use the existing Blogs page and article content.
-  RewriteRule ^blogs/(instagram-carousel-captions|instagram-instants|meta-ads-new-targeting-update|how-instagram-search-works|70-20-10-rule-digital-marketing|digital-marketing-results-timeline|latest-instagram-updates|purple-cow-marketing|how-to-start-business-from-zero|build-brand-through-social-media|gemini-pro-for-jio-users)/$ /blogs/$1 [R=301,L]
-  RewriteRule ^blogs/(instagram-carousel-captions|instagram-instants|meta-ads-new-targeting-update|how-instagram-search-works|70-20-10-rule-digital-marketing|digital-marketing-results-timeline|latest-instagram-updates|purple-cow-marketing|how-to-start-business-from-zero|build-brand-through-social-media|gemini-pro-for-jio-users)$ /blogs.html [L]
-
-  # Previous article addresses redirect to their canonical article URLs.
-  RewriteRule ^good-news-for-jio-users-to-get-gemini-pro-for-free/?$ /blogs/gemini-pro-for-jio-users [R=301,L]
-  RewriteRule ^how-does-instagram-search-engine-work-guide/?$ /blogs/how-instagram-search-works [R=301,L]
-  RewriteRule ^how-long-does-digital-marketing-take-to-show-results/?$ /blogs/digital-marketing-results-timeline [R=301,L]
-  RewriteRule ^how-to-build-a-brand-through-social-media-simple-guide/?$ /blogs/build-brand-through-social-media [R=301,L]
-  RewriteRule ^how-to-start-business-from-zero-a-practical-guide/?$ /blogs/how-to-start-business-from-zero [R=301,L]
-  RewriteRule ^instagram-carousel-captions/?$ /blogs/instagram-carousel-captions [R=301,L]
-  RewriteRule ^instagram-instants/?$ /blogs/instagram-instants [R=301,L]
-  RewriteRule ^latest-instagram-updates/?$ /blogs/latest-instagram-updates [R=301,L]
-  RewriteRule ^meta-ads-new-targeting-update/?$ /blogs/meta-ads-new-targeting-update [R=301,L]
-  RewriteRule ^purple-cow-theory-what-it-means/?$ /blogs/purple-cow-marketing [R=301,L]
-  RewriteRule ^what-is-70-20-10-rule-in-digital-marketing/?$ /blogs/70-20-10-rule-digital-marketing [R=301,L]
+  # The blog articles are kept in the site and open on the Blogs page
+  RewriteRule ^(good-news-for-jio-users-to-get-gemini-pro-for-free|how-does-instagram-search-engine-work-guide|how-long-does-digital-marketing-take-to-show-results|how-to-build-a-brand-through-social-media-simple-guide|how-to-start-business-from-zero-a-practical-guide|instagram-carousel-captions|instagram-instants|latest-instagram-updates|meta-ads-new-targeting-update|purple-cow-theory-what-it-means|what-is-70-20-10-rule-in-digital-marketing)/?$ /blogs#$1 [R=301,NE,L]
 
   # Visiting /about.html directly → /about
   RewriteCond %{THE_REQUEST} \s/+([a-z-]+)\.html[\s?]
