@@ -28,7 +28,19 @@ const server = http.createServer((req, res) => {
     res.end();
   };
   const isPage = (name) => fs.existsSync(path.join(__dirname, `${name}.html`));
-  const isArticle = (name) => fs.existsSync(path.join(__dirname, 'assets', 'articles', `${name}.json`));
+  const articleRoutes = new Set([
+    'instagram-carousel-captions',
+    'instagram-instants',
+    'meta-ads-new-targeting-update',
+    'how-instagram-search-works',
+    '70-20-10-rule-digital-marketing',
+    'digital-marketing-results-timeline',
+    'latest-instagram-updates',
+    'purple-cow-marketing',
+    'how-to-start-business-from-zero',
+    'build-brand-through-social-media',
+    'gemini-pro-for-jio-users'
+  ]);
   const oldAddresses = {
     'about-takees-marketing': '/about',
     'about-takees-digital-marketing-agency-in-kannur-kerala': '/about',
@@ -54,6 +66,17 @@ const server = http.createServer((req, res) => {
     'social-media-marketing-for-small-businesses-in-kannur': '/',
     'latest-ai-tools-for-marketers-to-use-not-to-miss-it': '/ai-tools',
     'best-ai-tools-of-2026': '/ai-tools',
+    'good-news-for-jio-users-to-get-gemini-pro-for-free': '/blogs/gemini-pro-for-jio-users',
+    'how-does-instagram-search-engine-work-guide': '/blogs/how-instagram-search-works',
+    'how-long-does-digital-marketing-take-to-show-results': '/blogs/digital-marketing-results-timeline',
+    'how-to-build-a-brand-through-social-media-simple-guide': '/blogs/build-brand-through-social-media',
+    'how-to-start-business-from-zero-a-practical-guide': '/blogs/how-to-start-business-from-zero',
+    'instagram-carousel-captions': '/blogs/instagram-carousel-captions',
+    'instagram-instants': '/blogs/instagram-instants',
+    'latest-instagram-updates': '/blogs/latest-instagram-updates',
+    'meta-ads-new-targeting-update': '/blogs/meta-ads-new-targeting-update',
+    'purple-cow-theory-what-it-means': '/blogs/purple-cow-marketing',
+    'what-is-70-20-10-rule-in-digital-marketing': '/blogs/70-20-10-rule-digital-marketing',
     'co-working-space-in-kannur-takees-park-kannur': 'https://takeescowork.com/'
   };
 
@@ -68,12 +91,18 @@ const server = http.createServer((req, res) => {
   const folderPage = reqUrl.match(/^\/(?:bangalore|kochi)\/([a-z-]+)\.html$/);
   if (folderPage) return redirect(`/${folderPage[1]}`);
 
+  let isBlogArticleRoute = false;
+  const blogArticle = reqUrl.match(/^\/blogs\/([a-z0-9-]+)(\/?)$/);
+  if (blogArticle && articleRoutes.has(blogArticle[1])) {
+    if (blogArticle[2]) return redirect(`/blogs/${blogArticle[1]}`);
+    isBlogArticleRoute = true;
+    reqUrl = '/blogs.html';
+  }
+
   const page = reqUrl.match(/^\/([a-z0-9-]+)(\.html|\/)?$/);
-  if (page) {
+  if (page && !isBlogArticleRoute) {
     const [, name, suffix] = page;
     if (oldAddresses[name]) return redirect(oldAddresses[name]);
-    // The blog articles are kept in the site and open on the Blogs page
-    if (suffix !== '.html' && isArticle(name)) return redirect(`/blogs#${name}`);
     if (isPage(name)) {
       if (suffix) return redirect(`/${name}`);
       reqUrl = `/${name}.html`;
