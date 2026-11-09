@@ -2830,26 +2830,59 @@ select.form-control {
   line-height: 1.6;
 }
 
+/* Careers button: opens the Takees LinkedIn page, styled like the site's pill buttons */
 .where-career-btn {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background-color: #eef1f8;
-  border: 1.5px solid #d8deeb;
-  padding: 14px 22px;
-  border-radius: var(--radius-md);
-  font-size: 1.05rem;
-  font-weight: 400;
+  background-color: #ffffff;
+  border: 1px solid var(--border-light);
+  padding: 8px 22px 8px 8px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-xs);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
   text-transform: none;
-  color: var(--primary);
+  color: var(--text-main);
   margin-top: 10px;
   width: fit-content;
-  transition: all var(--transition-fast);
+  transition: border-color var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.where-career-btn:hover {
-  background-color: var(--primary-soft);
+.where-career-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 50%;
+  background-color: #0a66c2;
+}
+
+.where-career-icon svg {
+  width: 15px;
+  height: 15px;
+  fill: #ffffff;
+}
+
+.where-career-btn .btn-arrow-icon {
+  color: var(--primary);
+  transition: transform var(--transition-fast);
+}
+
+.where-career-btn:hover,
+.where-career-btn:focus-visible {
   border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(91, 43, 181, 0.12);
+}
+
+.where-career-btn:hover .btn-arrow-icon {
+  transform: translate(2px, -2px);
 }
 
 .where-mail-circle-btn {
