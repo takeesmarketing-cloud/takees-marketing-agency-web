@@ -17,6 +17,40 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+.kochi-about-section {
+  padding: clamp(72px, 8vw, 104px) 0;
+  background: var(--bg-subtle);
+}
+
+.kochi-about-container {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(36px, 7vw, 88px);
+  align-items: start;
+}
+
+.kochi-about-heading h2 {
+  max-width: 470px;
+  margin: 10px 0 28px;
+  color: var(--text-main);
+  font-size: clamp(2rem, 3.2vw + 1rem, 3rem);
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+}
+
+.kochi-about-content {
+  color: var(--text-body);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+@media (max-width: 768px) {
+  .kochi-about-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
 @media (max-width: 992px) {
   .stats-grid-5.stats-grid-4 {
     grid-template-columns: repeat(2, 1fr);
