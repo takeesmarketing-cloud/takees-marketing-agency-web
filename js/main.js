@@ -550,7 +550,8 @@ function initSmoothScroll() {
     let visitorScrolled = false;
     const markScrolled = () => { visitorScrolled = true; };
     ['wheel', 'touchstart', 'keydown'].forEach(type => window.addEventListener(type, markScrolled, { once: true, passive: true }));
-    const goToSection = () => { if (!visitorScrolled) target.scrollIntoView({ block: 'start' }); };
+    // Jump straight there, like a normal #link (the page's smooth scrolling would animate from the top)
+    const goToSection = () => { if (!visitorScrolled) target.scrollIntoView({ block: 'start', behavior: 'instant' }); };
     goToSection();
     setTimeout(goToSection, 300);
     if (document.readyState === 'complete') setTimeout(goToSection, 0);
