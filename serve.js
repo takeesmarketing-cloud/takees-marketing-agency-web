@@ -28,8 +28,18 @@ const server = http.createServer((req, res) => {
     res.end();
   };
   const isPage = (name) => fs.existsSync(path.join(__dirname, `${name}.html`));
-  const isArticle = (name) => fs.existsSync(path.join(__dirname, 'assets', 'articles', `${name}.json`));
   const oldAddresses = {
+    'good-news-for-jio-users-to-get-gemini-pro-for-free': '/blogs/gemini-pro-for-jio-users',
+    'how-does-instagram-search-engine-work-guide': '/blogs/how-instagram-search-works',
+    'how-long-does-digital-marketing-take-to-show-results': '/blogs/digital-marketing-results-timeline',
+    'how-to-build-a-brand-through-social-media-simple-guide': '/blogs/build-brand-through-social-media',
+    'how-to-start-business-from-zero-a-practical-guide': '/blogs/how-to-start-business-from-zero',
+    'purple-cow-theory-what-it-means': '/blogs/purple-cow-marketing',
+    'what-is-70-20-10-rule-in-digital-marketing': '/blogs/70-20-10-rule-digital-marketing',
+    'instagram-carousel-captions': '/blogs/instagram-carousel-captions',
+    'instagram-instants': '/blogs/instagram-instants',
+    'latest-instagram-updates': '/blogs/latest-instagram-updates',
+    'meta-ads-new-targeting-update': '/blogs/meta-ads-new-targeting-update',
     'about-takees-marketing': '/about',
     'about-takees-digital-marketing-agency-in-kannur-kerala': '/about',
     'about-takees-marketing-in-kannur-kerala': '/about',
@@ -68,14 +78,23 @@ const server = http.createServer((req, res) => {
   const folderPage = reqUrl.match(/^\/(?:bangalore|kochi)\/([a-z-]+)\.html$/);
   if (folderPage) return redirect(`/${folderPage[1]}`);
 
+  // Blog articles: each one is a page in /articles, shown at /blogs/<article>
+  const articleFile = reqUrl.match(/^\/articles\/([a-z0-9-]+)\.html$/);
+  if (articleFile) return redirect(`/blogs/${articleFile[1]}`);
+  const article = reqUrl.match(/^\/blogs\/([a-z0-9-]+)(\/?)$/);
+  if (article) {
+    if (article[2]) return redirect(`/blogs/${article[1]}`);
+    reqUrl = `/articles/${article[1]}.html`;
+  }
+
   const page = reqUrl.match(/^\/([a-z0-9-]+)(\.html|\/)?$/);
   if (page) {
     const [, name, suffix] = page;
     if (oldAddresses[name]) return redirect(oldAddresses[name]);
-    // The blog articles are kept in the site and open on the Blogs page
-    if (suffix !== '.html' && isArticle(name)) return redirect(`/blogs#${name}`);
     if (isPage(name)) {
-      if (suffix) return redirect(`/${name}`);
+      // Like .htaccess, names with digits (e.g. the Google verification file) stay as they are
+      if (suffix === '.html' && /\d/.test(name)) { /* served as-is */ }
+      else if (suffix) return redirect(`/${name}`);
       reqUrl = `/${name}.html`;
     }
   }
