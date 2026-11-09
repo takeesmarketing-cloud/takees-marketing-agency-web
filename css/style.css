@@ -2885,23 +2885,14 @@ select.form-control {
   transform: translate(2px, -2px);
 }
 
-.where-mail-circle-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background-color: #111216;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  margin-top: 6px;
-  transition: all var(--transition-fast);
+/* Email button: same pill as the careers button, with a dark mail icon */
+.where-mail-icon {
+  background-color: var(--dark);
 }
 
-.where-mail-circle-btn:hover {
-  background-color: var(--primary);
-  transform: translateY(-2px);
+.where-mail-icon svg {
+  width: 17px;
+  height: 17px;
 }
 
 .site-footer {
