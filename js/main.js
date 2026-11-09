@@ -520,21 +520,31 @@ function validatePhone(phone) {
 /**
  * Smooth scrolling
  */
+/**
+ * Keeps addresses clean of #section: links to a section of the current page
+ * scroll smoothly without adding it, and a #section arriving from another
+ * page (e.g. /services#seo) is removed once the page has scrolled there.
+ */
 function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#' || targetId === '') return;
-      const targetEl = document.querySelector(targetId);
-      if (targetEl) {
-        e.preventDefault();
-        targetEl.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
+  const pagePath = path => path.replace(/\.html$/, '').replace(/\/index$/, '/');
+  const sectionFor = hash => (hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null);
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href*="#"]');
+    if (!link || link.origin !== window.location.origin) return;
+    if (pagePath(link.pathname) !== pagePath(window.location.pathname)) return;
+    const target = sectionFor(link.hash);
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+
+  // A page that is sending the visitor on (e.g. an old /blogs#article link) keeps its address
+  if (window.location.hash && !window.takeesRedirecting) {
+    const target = sectionFor(window.location.hash);
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+  }
 }
 
 /**
