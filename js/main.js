@@ -543,7 +543,18 @@ function initSmoothScroll() {
   if (window.location.hash && !window.takeesRedirecting) {
     const target = sectionFor(window.location.hash);
     history.replaceState(null, '', window.location.pathname + window.location.search);
-    if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+    if (!target) return;
+    // Without the # the browser no longer keeps the section in view while images
+    // and fonts load, so scroll now and again once everything has loaded,
+    // unless the visitor has started scrolling themselves
+    let visitorScrolled = false;
+    const markScrolled = () => { visitorScrolled = true; };
+    ['wheel', 'touchstart', 'keydown'].forEach(type => window.addEventListener(type, markScrolled, { once: true, passive: true }));
+    const goToSection = () => { if (!visitorScrolled) target.scrollIntoView({ block: 'start' }); };
+    goToSection();
+    setTimeout(goToSection, 300);
+    if (document.readyState === 'complete') setTimeout(goToSection, 0);
+    else window.addEventListener('load', () => setTimeout(goToSection, 50), { once: true });
   }
 }
 
