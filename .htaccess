@@ -70,8 +70,15 @@ AddType font/woff     .woff
   RewriteCond %{THE_REQUEST} \s/+index\.html[\s?]
   RewriteRule ^ / [R=301,L]
 
+  # The Kochi page is at /digital-marketing-agency-kochi/ (served from kochi.html)
+  RewriteRule ^digital-marketing-agency-kochi$ /digital-marketing-agency-kochi/ [R=301,L]
+  RewriteRule ^digital-marketing-agency-kochi/$ /kochi.html [L]
+  # Old Kochi addresses (/kochi, /kochi.html, /kochi/, /kochi/index.html) → the new one
+  RewriteCond %{THE_REQUEST} \s/+kochi(\.html|/|/index\.html)?[\s?]
+  RewriteRule ^ /digital-marketing-agency-kochi/ [R=301,L]
+
   # Old folder addresses: /bangalore/ and /bangalore/index.html → /bangalore
-  RewriteRule ^(bangalore|kochi)/(index\.html)?$ /$1 [R=301,L]
+  RewriteRule ^bangalore/(index\.html)?$ /bangalore [R=301,L]
 
   # The Method page was removed → About Us (its "How We Work" section)
   RewriteRule ^(?:(?:bangalore|kochi)/)?method\.html$ /about [R=301,L]
@@ -111,7 +118,7 @@ AddType font/woff     .woff
   RewriteRule ^ /%1 [R=301,L]
 
   # A trailing slash on a page address → without it (/blogs/ → /blogs)
-  RewriteRule ^(about|services|achievements|blogs|blog-details|ai-tools|contact|bangalore|kochi)/$ /$1 [R=301,L]
+  RewriteRule ^(about|services|achievements|blogs|blog-details|ai-tools|contact|bangalore)/$ /$1 [R=301,L]
 
   # Any other old WordPress address (blog posts, categories; they all end with
   # a slash) → the Blogs page

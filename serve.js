@@ -69,9 +69,15 @@ const server = http.createServer((req, res) => {
 
   // The home page is served at / only
   if (reqUrl === '/index.html') return redirect('/');
+  // The Kochi page is at /digital-marketing-agency-kochi/ (served from kochi.html)
+  const KOCHI = '/digital-marketing-agency-kochi/';
+  if (reqUrl === KOCHI.slice(0, -1)) return redirect(KOCHI);
+  if (['/kochi', '/kochi.html', '/kochi/', '/kochi/index.html'].includes(reqUrl)) return redirect(KOCHI);
+  const servingKochi = reqUrl === KOCHI;
+  if (servingKochi) reqUrl = '/kochi.html';
   // Old folder addresses: /bangalore/ and /bangalore/index.html → /bangalore
-  const folder = reqUrl.match(/^\/(bangalore|kochi)\/(index\.html)?$/);
-  if (folder) return redirect(`/${folder[1]}`);
+  const folder = reqUrl.match(/^\/bangalore\/(index\.html)?$/);
+  if (folder) return redirect('/bangalore');
   // The Method page was removed; old links go to About Us
   if (/^\/((bangalore|kochi)\/)?method\.html$/.test(reqUrl)) return redirect('/about');
   // Old folder pages (/bangalore/about.html …) → the shared page
@@ -87,7 +93,7 @@ const server = http.createServer((req, res) => {
     reqUrl = `/articles/${article[1]}.html`;
   }
 
-  const page = reqUrl.match(/^\/([a-z0-9-]+)(\.html|\/)?$/);
+  const page = !servingKochi && reqUrl.match(/^\/([a-z0-9-]+)(\.html|\/)?$/);
   if (page) {
     const [, name, suffix] = page;
     if (oldAddresses[name]) return redirect(oldAddresses[name]);
