@@ -2396,6 +2396,26 @@ select.form-control {
   margin-bottom: 10px;
 }
 
+/* Highlighted links inside article text */
+.article-body .article-highlight-link {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(91, 43, 181, 0.35);
+  background-color: var(--primary-soft);
+  border-radius: 4px;
+  padding: 0 3px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.article-body .article-highlight-link:hover,
+.article-body .article-highlight-link:focus-visible {
+  color: var(--primary-hover);
+  text-decoration-color: currentColor;
+}
+
 /* Tables inside articles: scroll sideways on narrow phones instead of squeezing */
 .article-table-wrap {
   overflow-x: auto;
