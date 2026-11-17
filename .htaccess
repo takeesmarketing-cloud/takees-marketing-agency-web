@@ -60,7 +60,7 @@ AddType font/woff     .woff
 # ----------------------------------------------------------
 #  Clean Addresses
 #  Every page is served without .html: takees.in/, /about,
-#  /services, /bangalore … (no trailing slash, so each page's
+#  /services … (no trailing slash, so each page's
 #  relative css/js/asset paths resolve to the root)
 # ----------------------------------------------------------
 <IfModule mod_rewrite.c>
@@ -77,8 +77,12 @@ AddType font/woff     .woff
   RewriteCond %{THE_REQUEST} \s/+kochi(\.html|/|/index\.html)?[\s?]
   RewriteRule ^ /digital-marketing-agency-kochi/ [R=301,L]
 
-  # Old folder addresses: /bangalore/ and /bangalore/index.html → /bangalore
-  RewriteRule ^bangalore/(index\.html)?$ /bangalore [R=301,L]
+  # The Bangalore page is at /digital-marketing-company-in-bangalore/ (served from bangalore.html)
+  RewriteRule ^digital-marketing-company-in-bangalore$ /digital-marketing-company-in-bangalore/ [R=301,L]
+  RewriteRule ^digital-marketing-company-in-bangalore/$ /bangalore.html [L]
+  # Old Bangalore addresses (/bangalore, /bangalore.html, /bangalore/, /bangalore/index.html) → the new one
+  RewriteCond %{THE_REQUEST} \s/+bangalore(\.html|/|/index\.html)?[\s?]
+  RewriteRule ^ /digital-marketing-company-in-bangalore/ [R=301,L]
 
   # The Method page was removed → About Us (its "How We Work" section)
   RewriteRule ^(?:(?:bangalore|kochi)/)?method\.html$ /about [R=301,L]
@@ -92,7 +96,7 @@ AddType font/woff     .woff
   RewriteRule ^(digital-marketing-company-achievements|portfolio2?|vastragni-branding|wgl-2|branding-v)/?$ /achievements [R=301,L]
   RewriteRule ^(contact-takees-marketing-company|contact-page-of-best-digital-marketing-agency-in-kannur)/?$ /contact [R=301,L]
   RewriteRule ^best-digital-marketing-agency-in-bangalore/?$ /blog-details [R=301,L]
-  RewriteRule ^(best-digital-marketing-company-in-bangalore(-takees)?|digital-marketing-company-in-bangalore|social-media-marketing-in-bangalore|website-developer-in-bangalore)/?$ /bangalore [R=301,L]
+  RewriteRule ^(best-digital-marketing-company-in-bangalore(-takees)?|social-media-marketing-in-bangalore|website-developer-in-bangalore)/?$ /digital-marketing-company-in-bangalore/ [R=301,L]
   RewriteRule ^(digital-marketing-company-in-kannur|website-developer-in-kannur|social-media-marketing-for-small-businesses-in-kannur)/?$ / [R=301,L]
   RewriteRule ^(latest-ai-tools-for-marketers-to-use-not-to-miss-it|best-ai-tools-of-2026)/?$ /ai-tools [R=301,L]
   RewriteRule ^co-working-space-in-kannur-takees-park-kannur/?$ https://takeescowork.com/ [R=301,L]
@@ -118,7 +122,7 @@ AddType font/woff     .woff
   RewriteRule ^ /%1 [R=301,L]
 
   # A trailing slash on a page address → without it (/blogs/ → /blogs)
-  RewriteRule ^(about|services|achievements|blogs|blog-details|ai-tools|contact|bangalore)/$ /$1 [R=301,L]
+  RewriteRule ^(about|services|achievements|blogs|blog-details|ai-tools|contact)/$ /$1 [R=301,L]
 
   # Any other old WordPress address (blog posts, categories; they all end with
   # a slash) → the Blogs page

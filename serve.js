@@ -54,11 +54,10 @@ const server = http.createServer((req, res) => {
     'contact-takees-marketing-company': '/contact',
     'contact-page-of-best-digital-marketing-agency-in-kannur': '/contact',
     'best-digital-marketing-agency-in-bangalore': '/blog-details',
-    'best-digital-marketing-company-in-bangalore': '/bangalore',
-    'best-digital-marketing-company-in-bangalore-takees': '/bangalore',
-    'digital-marketing-company-in-bangalore': '/bangalore',
-    'social-media-marketing-in-bangalore': '/bangalore',
-    'website-developer-in-bangalore': '/bangalore',
+    'best-digital-marketing-company-in-bangalore': '/digital-marketing-company-in-bangalore/',
+    'best-digital-marketing-company-in-bangalore-takees': '/digital-marketing-company-in-bangalore/',
+    'social-media-marketing-in-bangalore': '/digital-marketing-company-in-bangalore/',
+    'website-developer-in-bangalore': '/digital-marketing-company-in-bangalore/',
     'digital-marketing-company-in-kannur': '/',
     'website-developer-in-kannur': '/',
     'social-media-marketing-for-small-businesses-in-kannur': '/',
@@ -75,9 +74,12 @@ const server = http.createServer((req, res) => {
   if (['/kochi', '/kochi.html', '/kochi/', '/kochi/index.html'].includes(reqUrl)) return redirect(KOCHI);
   const servingKochi = reqUrl === KOCHI;
   if (servingKochi) reqUrl = '/kochi.html';
-  // Old folder addresses: /bangalore/ and /bangalore/index.html → /bangalore
-  const folder = reqUrl.match(/^\/bangalore\/(index\.html)?$/);
-  if (folder) return redirect('/bangalore');
+  // The Bangalore page is at /digital-marketing-company-in-bangalore/ (served from bangalore.html)
+  const BANGALORE = '/digital-marketing-company-in-bangalore/';
+  if (reqUrl === BANGALORE.slice(0, -1)) return redirect(BANGALORE);
+  if (['/bangalore', '/bangalore.html', '/bangalore/', '/bangalore/index.html'].includes(reqUrl)) return redirect(BANGALORE);
+  const servingBangalore = reqUrl === BANGALORE;
+  if (servingBangalore) reqUrl = '/bangalore.html';
   // The Method page was removed; old links go to About Us
   if (/^\/((bangalore|kochi)\/)?method\.html$/.test(reqUrl)) return redirect('/about');
   // Old folder pages (/bangalore/about.html …) → the shared page
@@ -93,7 +95,7 @@ const server = http.createServer((req, res) => {
     reqUrl = `/articles/${article[1]}.html`;
   }
 
-  const page = !servingKochi && reqUrl.match(/^\/([a-z0-9-]+)(\.html|\/)?$/);
+  const page = !servingKochi && !servingBangalore && reqUrl.match(/^\/([a-z0-9-]+)(\.html|\/)?$/);
   if (page) {
     const [, name, suffix] = page;
     if (oldAddresses[name]) return redirect(oldAddresses[name]);
