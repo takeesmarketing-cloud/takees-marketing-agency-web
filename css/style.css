@@ -2282,10 +2282,15 @@ select.form-control {
 /* 2-Column Article Layout */
 .article-layout-grid {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px minmax(0, 1fr);
   gap: 60px;
   align-items: flex-start;
   margin-bottom: 80px;
+}
+
+/* Wide content (tables) scrolls inside its box instead of stretching the page */
+.article-layout-grid > * {
+  min-width: 0;
 }
 
 /* Sticky Sidebar */
@@ -2448,7 +2453,14 @@ select.form-control {
 .article-body tbody th {
   color: var(--text-main);
   font-weight: 600;
-  white-space: nowrap;
+  min-width: 9em;
+}
+
+/* Small note under a table */
+.article-body .article-table-note {
+  margin-top: -16px;
+  font-size: 0.9rem;
+  color: var(--text-muted, #6b7280);
 }
 
 .article-body tbody tr:last-child th,
