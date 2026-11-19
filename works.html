@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Google Tag Manager -->
+  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-W688BGSJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Work | Posters, Websites & Branding | Takees Marketing</title>
+  <meta name="description" content="See work by Takees Marketing: posters, websites and branding for brands across Kerala, Bangalore and the GCC.">
+  <link rel="canonical" href="https://takees.in/works">
+  <!-- Link previews (WhatsApp, LinkedIn, Facebook, X) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takees Marketing">
+  <meta property="og:title" content="Our Work | Posters, Websites & Branding | Takees Marketing">
+  <meta property="og:description" content="See work by Takees Marketing: posters, websites and branding for brands across Kerala, Bangalore and the GCC.">
+  <meta property="og:url" content="https://takees.in/works">
+  <meta property="og:image" content="https://takees.in/images/takees-logo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Takees Marketing logo">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Our Work | Posters, Websites & Branding | Takees Marketing">
+  <meta name="twitter:description" content="See work by Takees Marketing: posters, websites and branding for brands across Kerala, Bangalore and the GCC.">
+  <meta name="twitter:image" content="https://takees.in/images/takees-logo.png">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css?v=20261118-1">
+  <link rel="stylesheet" href="css/responsive.css?v=20261118-1">
+  <link rel="stylesheet" href="css/works.css?v=20261118-1">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/takees-logo.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="192x192" href="/takees-logo-192.png">
+  <link rel="apple-touch-icon" href="/takees-logo-apple.png">
+</head>
+
+<body>
+
+
+  <!-- =========================================================================
+       HEADER / NAVIGATION (STANDARD MATCHING ALL OTHER PAGES)
+       ========================================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-container">
+      <a href="/" class="brand-logo" aria-label="Takees Marketing Home"><img src="assets/Vector.png"
+          alt="Takees Marketing"></a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About Us</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/achievements" class="nav-link">Achievements</a>
+        <a href="/blogs" class="nav-link">Blogs</a>
+        <a href="/ai-tools" class="nav-link">AI Tools</a>
+        <a href="/contact" class="nav-link">Contact Us</a>
+      </nav>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle Navigation Menu"
+        aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       HERO SECTION
+       ========================================================================= -->
+  <section class="dark-hero" id="worksHero">
+    <div class="container container-narrow">
+      <span class="kicker kicker-light">OUR WORK</span>
+      <h1 class="section-title" style="line-height: 1.15;">
+        Work We’re Proud Of
+      </h1>
+      <p class="section-subtitle">
+        Posters, websites and branding made for brands across Kerala, Bangalore and the GCC.
+      </p>
+      <a href="#worksShowcase" class="btn btn-primary">
+        See the Work <span class="btn-arrow-icon">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       WORK SHOWCASE (cards slide across a purple panel; filled from js/works-data.js)
+       ========================================================================= -->
+  <section class="works-showcase" id="worksShowcase" aria-labelledby="worksTitle">
+    <div class="works-panel" aria-hidden="true"></div>
+
+    <div class="works-head">
+      <span class="kicker">SELECTED PROJECTS</span>
+      <h2 class="works-title" id="worksTitle">Our Work</h2>
+      <p class="works-subtitle">A selection of signature projects. Tap any piece to see it larger.</p>
+      <div class="works-tabs" id="worksTabs" role="group" aria-label="Filter work by type"></div>
+    </div>
+
+    <div class="works-track" id="worksTrack" tabindex="0" aria-label="Work, scroll sideways to see more"></div>
+    <p class="works-empty" id="worksEmpty" hidden>No work in this category yet.</p>
+
+    <div class="works-controls">
+      <button type="button" class="works-arrow" id="worksPrev" aria-label="Previous work">←</button>
+      <div class="works-dots" id="worksDots"></div>
+      <button type="button" class="works-arrow" id="worksNext" aria-label="Next work">→</button>
+    </div>
+  </section>
+
+  <dialog class="work-dialog" id="workDialog" aria-labelledby="workDialogTitle">
+    <button type="button" class="work-dialog__close" aria-label="Close">×</button>
+    <div class="work-dialog__media"></div>
+    <div class="work-dialog__body">
+      <span class="kicker work-dialog__cat"></span>
+      <h2 class="work-dialog__title" id="workDialogTitle"></h2>
+      <p class="work-dialog__client"></p>
+      <p class="work-dialog__desc"></p>
+      <div class="work-dialog__gallery" hidden></div>
+      <a class="btn btn-primary work-dialog__link" target="_blank" rel="noopener noreferrer" hidden>
+        Visit Website <span class="btn-arrow-icon">↗</span>
+      </a>
+    </div>
+  </dialog>
+
+  <!-- =========================================================================
+       CTA
+       ========================================================================= -->
+  <section class="section-sm" style="background-color: var(--primary); color: #ffffff;" id="worksCta">
+    <div class="container text-center">
+      <h2 style="font-size: clamp(2rem, 3.2vw + 1rem, 2.8rem); font-weight: 600; margin-bottom: 14px; color: #ffffff; text-align: center;">
+        Want work like this for your brand?
+      </h2>
+      <p style="font-size: 1.15rem; color: rgba(255,255,255,0.9); max-width: 680px; margin: 0 auto 30px;">
+        Tell us what you need, from a single poster to a full website and brand identity.
+      </p>
+      <a href="/contact" class="btn btn-white">
+        Get in Touch <span class="btn-arrow-icon">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="site-footer" id="siteFooter">
+    <div class="container">
+      <div class="footer-top">
+        <!-- Col 1: Takees Marketing -->
+        <div class="footer-brand">
+          <a href="/" class="brand-logo" aria-label="Takees Marketing Home"><img loading="lazy" src="assets/Vector.png" alt="Takees Marketing"></a>
+          <p class="footer-desc">
+            Takees Marketing is a full-service digital marketing agency headquartered in Kannur, Kerala, with operations
+            in UB City Bangalore. Helping ambitious brands scale through strategic creative, web engineering, and
+            performance marketing.
+          </p>
+          <div class="footer-social-links" aria-label="Takees social media">
+            <a href="https://www.facebook.com/share/1Bzk7uZRUZ/" class="footer-social-link" target="_blank"
+              rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 320 512" aria-hidden="true" focusable="false">
+                <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/takees.in/" class="footer-social-link" target="_blank"
+              rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 448 512" aria-hidden="true" focusable="false">
+                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1z" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/takees/" class="footer-social-link" target="_blank"
+              rel="noopener noreferrer" aria-label="LinkedIn">
+              <svg viewBox="0 0 448 512" aria-hidden="true" focusable="false">
+                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Takees Ecosystem -->
+        <div>
+          <h3 class="footer-col-title">ECOSYSTEM</h3>
+          <ul class="footer-links">
+            <li><a href="https://takeescowork.com/" class="footer-link" target="_blank" rel="noopener noreferrer">Takees CO-WORK</a></li>
+            <li><a href="https://takeesestates.com/" class="footer-link" target="_blank" rel="noopener noreferrer">Takees Estates</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Quick Links -->
+        <div>
+          <h3 class="footer-col-title">LINKS</h3>
+          <ul class="footer-links">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about" class="footer-link">About Us</a></li>
+            <li><a href="/services" class="footer-link">Services</a></li>
+            <li><a href="/achievements" class="footer-link">Achievements</a></li>
+            <li><a href="/blogs" class="footer-link">Blogs</a></li>
+            <li><a href="/ai-tools" class="footer-link">AI Tools</a></li>
+            <li><a href="/contact" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Services -->
+        <div>
+          <h3 class="footer-col-title">SERVICES</h3>
+          <ul class="footer-links">
+            <li><a href="/services#social-media" class="footer-link">Social Media Marketing</a></li>
+            <li><a href="/services#branding" class="footer-link">Branding &amp; Identity</a></li>
+            <li><a href="/services#web-dev" class="footer-link">Web Development</a></li>
+            <li><a href="/services#seo" class="footer-link">SEO Optimization</a></li>
+            <li><a href="/services#strategy" class="footer-link">Strategy Development</a></li>
+            <li><a href="/services#graphic-design" class="footer-link">Graphic Design</a></li>
+            <li><a href="/services#video-production" class="footer-link">Video Production</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 5: Locations -->
+        <div>
+          <h3 class="footer-col-title">LOCATIONS</h3>
+          <ul class="footer-links">
+            <li><a href="/" class="footer-link">Digital Marketing Kannur</a></li>
+            <li><a href="https://takees.in/digital-marketing-company-in-bangalore/" class="footer-link">Digital Marketing Bangalore</a></li>
+            <li><a href="https://takees.in/digital-marketing-agency-kochi/" class="footer-link">Digital Marketing Kochi</a></li>
+            <li><a href="/contact#whereToFind" class="footer-link">Digital Marketing Calicut</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026. All Rights Reserved. Powered by <strong>Takees Marketing</strong>
+        </div>
+        <div class="footer-legal-links">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/918137890091?text=Hi%20Takees%20Marketing%2C%20I%27m%20interested%20in%20your%20services.%20I%27d%20like%20to%20know%20more%20about%20how%20you%20can%20help%20my%20business."
+    class="floating-whatsapp" target="_blank" rel="noopener noreferrer"
+    aria-label="Chat with Takees Marketing on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.97.57 3.81 1.558 5.373L2 22l4.773-1.523c1.51.91 3.266 1.434 5.258 1.434 5.536 0 10.031-4.495 10.031-10.031C22.062 6.495 17.567 2 12.031 2zm0 18.375c-1.745 0-3.37-.5-4.75-1.37l-.34-.21-2.83.9.91-2.75-.22-.35a8.293 8.293 0 0 1-1.36-4.564c0-4.6 3.74-8.34 8.34-8.34 4.6 0 8.34 3.74 8.34 8.34 0 4.6-3.74 8.34-8.34 8.34zm4.56-6.24c-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.66.81-.81.98-.15.17-.3.19-.55.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.25-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.88-.2-.49-.41-.43-.57-.43h-.48c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.15s.92 2.5 1.05 2.67c.13.17 1.81 2.76 4.39 3.87.61.26 1.09.42 1.46.54.62.2 1.18.17 1.63.1.5-.07 1.48-.61 1.69-1.2.21-.59.21-1.1.15-1.2-.06-.1-.23-.17-.48-.29z" />
+    </svg>
+    <span class="tooltip">Chat with us on WhatsApp</span>
+  </a>
+
+  <!-- JavaScript -->
+  <script src="js/main.js?v=20261118-1"></script>
+  <script src="js/works-data.js?v=20261118-1"></script>
+  <script src="js/works.js?v=20261118-1"></script>
+</body>
+
+</html>
