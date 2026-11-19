@@ -3,9 +3,9 @@
    The work itself comes from window.TAKEES_WORKS (js/works-data.js). */
 (function () {
   const LABELS = {
-    posters: 'Posters',
-    websites: 'Websites',
     branding: 'Branding',
+    websites: 'Websites',
+    posters: 'Posters',
     videos: 'Videos',
   };
   const SINGULAR = {
