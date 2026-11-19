@@ -30,7 +30,6 @@
   })).map(b => ({ ...b, cover: b.cover || (b.designs[0] && b.designs[0].image) || '' }));
   const works = (window.TAKEES_WORKS || []).filter(w => w && w.title && w.category && w.category !== 'branding').concat(brands);
   const MIN_LOOP = 5;          // fewer cards than this: shown once, no repeats (centred if they fit)
-  const MAX_DOTS = 12;         // more cards than this: a "3 / 32" counter instead of dots
   const tabsEl = document.getElementById('worksTabs');
   const track = document.getElementById('worksTrack');
   const dotsEl = document.getElementById('worksDots');
@@ -249,9 +248,8 @@
     shown = works.filter(w => w.category === current);
     n = shown.length;
     if (emptyEl) emptyEl.hidden = n > 0;
-    dotsEl.innerHTML = n > MAX_DOTS
-      ? `<span class="works-count" aria-live="polite">1 / ${n}</span>`
-      : shown.map((w, i) => `<button type="button" class="works-dot${i === 0 ? ' is-active' : ''}" data-index="${i}" aria-label="Show ${esc(w.title)} (${i + 1} of ${n})"></button>`).join('');
+    // Every tab uses the "3 / 24" counter between the arrows
+    dotsEl.innerHTML = `<span class="works-count" aria-live="polite">1 / ${n}</span>`;
     build();
     restartAuto();
   }
