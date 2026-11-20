@@ -3127,6 +3127,85 @@ select.form-control {
   text-decoration: none;
 }
 
+.privacy-policy-section {
+  background-color: var(--bg-subtle);
+}
+
+.privacy-policy-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 56px);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.privacy-policy-header {
+  margin-bottom: 36px;
+}
+
+.privacy-policy-content .section-title {
+  margin-bottom: 8px;
+}
+
+.privacy-policy-effective-date {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.privacy-policy-content p,
+.privacy-policy-content li {
+  color: var(--text-body);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.privacy-policy-content p {
+  margin-bottom: 16px;
+}
+
+.privacy-policy-part {
+  margin-top: 32px;
+  scroll-margin-top: 100px;
+}
+
+.privacy-policy-part h2 {
+  margin-bottom: 12px;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.35;
+}
+
+.privacy-policy-part h3 {
+  margin: 20px 0 8px;
+  font-size: 1.0625rem;
+}
+
+.privacy-policy-part ul {
+  margin: 0 0 18px;
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.privacy-policy-part li {
+  padding-left: 0.2rem;
+  margin-bottom: 6px;
+}
+
+.privacy-policy-contact {
+  margin-bottom: 16px;
+  color: var(--text-body);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.8;
+}
+
+.privacy-policy-contact a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .service-item-box[id],
 .where-to-find-card[id],
 section[id] {

@@ -122,7 +122,7 @@ AddType font/woff     .woff
   RewriteRule ^ /%1 [R=301,L]
 
   # A trailing slash on a page address → without it (/blogs/ → /blogs)
-  RewriteRule ^(about|services|achievements|blogs|blog-details|ai-tools|contact|works)/$ /$1 [R=301,L]
+  RewriteRule ^(about|services|achievements|blogs|blog-details|ai-tools|contact|works|privacy-policy)/$ /$1 [R=301,L]
 
   # Any other old WordPress address (blog posts, categories; they all end with
   # a slash) → the Blogs page
