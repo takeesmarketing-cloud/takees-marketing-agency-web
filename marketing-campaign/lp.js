@@ -205,7 +205,7 @@
     var form = $('#lpForm');
     if (!form) return;
     var feedback = $('#lpFeedback');
-    var labels = { name: 'Name', phone: 'Phone', email: 'Email', business: 'Business', service: 'Service', budget: 'Monthly budget', message: 'Goal' };
+    var labels = { name: 'Name', phone: 'Phone', email: 'Email', business: 'Business', service: 'Service', message: 'Goal' };
 
     form.addEventListener('input', function (e) {
       var field = e.target.closest('.lp-field');
@@ -236,7 +236,7 @@
       lines.push('', 'Sent from the Takees campaign page' + (campText ? ' (' + campText + ')' : ''));
       var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
 
-      track('generate_lead', { method: 'form', service: form.elements.service.value || '', budget: form.elements.budget.value || '' });
+      track('generate_lead', { method: 'form', service: form.elements.service.value || '' });
       var win = window.open(url, '_blank');
       if (win) win.opener = null;
 
